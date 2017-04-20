@@ -12,15 +12,25 @@ public class Cell {
 //	Pick the first path and leave the other two unexplored, so mark the cell with a 3.
 	
 	public int cellVal;
+	public int[] pos = new int[2];	// [row][col]
 	
 	/**
 	 * Default Constructor
 	 */
 	public Cell()	{
+		pos[0] = -1;
+		pos[1] = -1;
+		cellVal = 0;	// unvisited or unreachable
+	}
+	public Cell(int row, int col)	{
+		pos[0] = row;
+		pos[1] = col;
 		cellVal = 0;	// unvisited or unreachable
 	}
 	
-	public Cell(int cellVal)	{
+	public Cell(int row, int col, int cellVal)	{
+		pos[0] = row;
+		pos[1] = col;
 		this.cellVal = cellVal;
 	}
 }

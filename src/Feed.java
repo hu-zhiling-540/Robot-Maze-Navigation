@@ -1,9 +1,4 @@
-import java.util.Timer;
-import java.util.TimerTask;
-
 import lejos.nxt.LightSensor;
-import lejos.nxt.SensorPort;
-import lejos.nxt.SensorPortListener;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.subsumption.Behavior;
 

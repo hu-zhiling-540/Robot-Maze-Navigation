@@ -1,14 +1,18 @@
+import lejos.nxt.Button;
 import lejos.nxt.LightSensor;
+import lejos.nxt.SensorPort;
+import lejos.nxt.Sound;
+import lejos.nxt.UltrasonicSensor;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.subsumption.Behavior;
-
+import lejos.robotics.objectdetection.*;
 /**
  * the Feed class implements Behavior,
  * and uses a light sensor to check and see if our robot is over a food source
  * @author Guest
  *
  */
-public class Feed implements Behavior {
+public class Feed implements Behavior, FeatureListener {
 	
 	public LightSensor light; 
 	public DifferentialPilot robot;
@@ -16,12 +20,14 @@ public class Feed implements Behavior {
 	private long lastFeed = 0;
 	
 	
-	public static in MAX_DETECT = 80; 
-	public ObjectDetect listener; 
-	public void UltrasonicSensor us; 
+	public static int MAX_DETECT = 80; 
+	public Feed listener; 
+	public UltrasonicSensor us; 
 	public RangeFeatureDetector fd; 
 	
-	
+	public Feed()	{
+		
+	}
 	/**
 	 * constructor creates a light sensor object attached to the specified port, 
 	 * and sets flood lighting on or off.
@@ -34,13 +40,13 @@ public class Feed implements Behavior {
 
 		//System.out.println("feed");
 		
-		listener = new ObjectDetect(); 
+		listener = new Feed(); 
 		us = new UltrasonicSensor(SensorPort.S1); 
 		fd = new RangeFeatureDetector(us, MAX_DETECT, 500); 
 		fd.addListener(listener); 
 		Button.ENTER.waitForPressAndRelease(); 
 	}
-	public void featureDetected(Feature featur, FeatureDetector detector) {
+	public void featureDetected(Feature feature, FeatureDetector detector) {
 		int range = (int)feature.getRangeReading().getRange(); 
 		Sound.playTone(1200 - (range * 10), 100); 
 		System.out.println("Range:" + range); 

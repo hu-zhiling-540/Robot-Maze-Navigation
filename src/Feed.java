@@ -15,6 +15,13 @@ public class Feed implements Behavior {
 	
 	private long lastFeed = 0;
 	
+	
+	public static in MAX_DETECT = 80; 
+	public ObjectDetect listener; 
+	public void UltrasonicSensor us; 
+	public RangeFeatureDetector fd; 
+	
+	
 	/**
 	 * constructor creates a light sensor object attached to the specified port, 
 	 * and sets flood lighting on or off.
@@ -26,6 +33,18 @@ public class Feed implements Behavior {
 		this.light.setFloodlight(true);
 
 		//System.out.println("feed");
+		
+		listener = new ObjectDetect(); 
+		us = new UltrasonicSensor(SensorPort.S1); 
+		fd = new RangeFeatureDetector(us, MAX_DETECT, 500); 
+		fd.addListener(listener); 
+		Button.ENTER.waitForPressAndRelease(); 
+	}
+	public void featureDetected(Feature featur, FeatureDetector detector) {
+		int range = (int)feature.getRangeReading().getRange(); 
+		Sound.playTone(1200 - (range * 10), 100); 
+		System.out.println("Range:" + range); 
+		
 	}
 
 
@@ -64,4 +83,5 @@ public class Feed implements Behavior {
 	public void suppress() {
 		robot.stop();	
 	}
+	
 }

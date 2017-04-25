@@ -5,6 +5,7 @@ public class World {
 	public Cell start;		// start location
 	public Cell goal;		// goal location
 	
+//	private static final cell_width = 
 
 	public World(int numRows, int numCols, Cell start, Cell goal)	{
 		this.start = start;
@@ -21,5 +22,45 @@ public class World {
 			for(int j = 0; j < world[i].length; j++)
 				world[i][j] = new Cell(i,j);
 		}
+	}
+	
+	
+	/**
+	 * A method that reads in two sets of x and y coordinates:
+	 * the first set of coordinates is the lower-left corner of the obstacle, 
+	 * and the second set is the upper-right corner of the obstacle.
+	 * @param x1
+	 * @param y1
+	 * @param x2
+	 * @param y2
+	 */
+	public void buildObstacle(int x1, int y1, int x2, int y2)	{
+		
+		System.out.println("Building an obstacle in the LegoWorld.");
+		int max_x = Math.max(x1, x2);
+		int min_x = Math.min(x1, x2);
+		int max_y = Math.max(y1, y2);
+		int min_y = Math.min(y1, y2);
+				
+		for (int i = min_x; i <= max_x; i++)	{
+			for (int j = min_y; j <= max_y; j++)	{
+				world[i][j].setValue(-1);
+			}
+		}
+	}
+	
+	/**
+	 * Prints the world and the value each cell holds
+	 */
+	public void printWorld(Cell[][] arr)	{
+		String s = "";
+		for (int i = 0; i < arr[0].length; i ++)	{
+			for (int j = 0; j < arr.length; j ++)	{
+				s += arr[j][i].cellVal + "\t";
+			}
+			s += "\n";
+		}
+		System.out.println(s);
+		
 	}
 }

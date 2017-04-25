@@ -22,15 +22,50 @@ public class Cell {
 		pos[1] = -1;
 		cellVal = 0;	// unvisited or unreachable
 	}
+	
+	/**
+	 * A constructor that takes in x, y coordinates
+	 * @param row
+	 * @param col
+	 */
 	public Cell(int row, int col)	{
 		pos[0] = row;
 		pos[1] = col;
 		cellVal = 0;	// unvisited or unreachable
 	}
 	
+	
+	/**
+	 * A constructor that takes in x, y coordinates, and cell value
+	 * @param row
+	 * @param col
+	 * @param cellVal
+	 */
 	public Cell(int row, int col, int cellVal)	{
 		pos[0] = row;
 		pos[1] = col;
 		this.cellVal = cellVal;
 	}
+	
+	
+	/**
+	 * Assigns a value to the cell
+	 * @param v
+	 */
+	public void setValue(int cellVal)	{
+		this.cellVal = cellVal;
+	}
+	
+	
+	/**
+	 * Prints out the position in a nice way for a certain cell
+	 * @return
+	 */
+	public String printPos()	{
+		String pos = "( " + this.pos[0] + ", " + this.pos[1] + " )";
+		return pos;
+	}
+	
+	
+	
 }

@@ -25,6 +25,7 @@ public class Robot {
 	protected static TouchSensor frontBump = new TouchSensor(SensorPort.S2);	// touch sensor in the front
 	protected static LightSensor light = new LightSensor(SensorPort.S3);
 
+	
 	/**
 	 * Main method
 	 * @param args

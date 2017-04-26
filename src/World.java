@@ -19,8 +19,12 @@ public class World {
 	 */
 	public void populateWorld() {
 		for(int i = 0; i < world.length; i++) {
-			for(int j = 0; j < world[i].length; j++)
+			for(int j = 0; j < world[i].length; j++)	{
 				world[i][j] = new Cell(i,j);
+				// g(n) at first
+				int dis = manhattanDist(world[i][j]);
+				world[i][j].setManhattanDist(dis);
+			}
 		}
 	}
 	
@@ -36,7 +40,7 @@ public class World {
 	 */
 	public void buildObstacle(int x1, int y1, int x2, int y2)	{
 		
-		System.out.println("Building an obstacle in the LegoWorld.");
+		System.out.println("Building an obstacle.");
 		int max_x = Math.max(x1, x2);
 		int min_x = Math.min(x1, x2);
 		int max_y = Math.max(y1, y2);
@@ -48,6 +52,20 @@ public class World {
 			}
 		}
 	}
+	
+	
+	/**
+	 * Calculates the Manhattan Distance bewteen goal and a certain cell
+	 * @param cell
+	 * @return
+	 */
+	public int manhattanDist(Cell cell)	{
+		int row = cell.pos[0];
+		int col = cell.pos[1];
+		int absD = Math.abs(row - goal.pos[0]) + Math.abs(col - goal.pos[1]);
+		return absD;
+	}
+	
 	
 	/**
 	 * Prints the world and the value each cell holds
@@ -61,6 +79,7 @@ public class World {
 			s += "\n";
 		}
 		System.out.println(s);
-		
 	}
+	
+	
 }

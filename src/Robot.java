@@ -32,16 +32,19 @@ public class Robot {
 	 */
     public static void main(String [] args) { 
     	
+    	int[] start = {0,0};
+    	int[] goal = {5,8};
+    	World maze = new World(5, 8, start, goal);
+    	
     	DifferentialPilot robot = new DifferentialPilot(5.6f, 11.0f, Motor.A, Motor.C, true);   
     	
     	robot.setTravelSpeed(TRAVEL_DIST);
-    	Behavior Wander = new Wander(robot);     
+    	Behavior Explore = new Explore(robot, light, maze);     
     	Behavior Avoid = new Avoid(robot, frontBump);
-        
-    	Behavior Feed = new Feed(light, robot);  
+        Behavior Goal = new ReachGoal(robot, true);
         
         // array of behaviors will be passed to arbitrator
-        Behavior [] bArr = {Wander, Avoid, Feed}; 
+        Behavior [] bArr = {Explore, Avoid, Goal}; 
         
         //creates the arbitrator 
         Arbitrator arby = new Arbitrator(bArr); 

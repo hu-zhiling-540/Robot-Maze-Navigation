@@ -10,14 +10,13 @@ import lejos.robotics.subsumption.*;
 public class Explore implements Behavior{
 
 	public DifferentialPilot robot;
-	public LightSensor light; 
 	public World maze;
 	
 	/**
 	 * constructor
 	 * @param robot
 	 */
-	public Explore(DifferentialPilot robot, LightSensor light, World maze)	{
+	public Explore(DifferentialPilot robot, World maze)	{
 		this.robot = robot;
 //		this.light = light;
 //		this.light.setFloodlight(true);

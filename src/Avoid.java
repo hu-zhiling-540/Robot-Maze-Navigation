@@ -14,6 +14,7 @@ public class Avoid implements Behavior{
 	public DifferentialPilot robot;
 
 	public TouchSensor frontBump;
+	// Ultrasonic sensor
 	public boolean frontPressed;
 	
 	public static final int cellD = 30;

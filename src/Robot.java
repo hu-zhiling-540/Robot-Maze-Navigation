@@ -39,7 +39,7 @@ public class Robot {
     	DifferentialPilot robot = new DifferentialPilot(5.6f, 11.0f, Motor.A, Motor.C, true);   
     	
     	robot.setTravelSpeed(TRAVEL_DIST);
-    	Behavior Explore = new Explore(robot, light, maze);     
+    	Behavior Explore = new Explore(robot, maze);     
     	Behavior Avoid = new Avoid(robot, frontBump);
         Behavior Goal = new ReachGoal(robot, true);
         

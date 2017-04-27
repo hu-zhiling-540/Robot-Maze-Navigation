@@ -14,6 +14,7 @@ public class ReachGoal implements Behavior{
 
 	public DifferentialPilot robot;
 	protected boolean isGoal;
+	// light sensor!!!!!
 	private static final short[] note = {2349,115, 0,5, 1760,165, 0,35};
 	
 	

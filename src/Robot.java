@@ -32,9 +32,10 @@ public class Robot {
 	 */
     public static void main(String [] args) { 
     	
-    	int[] start = {0,0};
+    	int[] start = {1,1};
     	int[] goal = {5,8};
-    	World maze = new World(5, 8, start, goal);
+    	World maze = new World(7, 10, start, goal);
+//    	maze.printWorld();
     	
     	DifferentialPilot robot = new DifferentialPilot(5.6f, 11.0f, Motor.A, Motor.C, true);   
     	

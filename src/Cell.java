@@ -80,6 +80,18 @@ public class Cell {
 		return false;
 	}
 	
+	public boolean hasAPath()	{
+		if (cellVal == 1)
+			return true;
+		return false;
+	}
+	
+	public boolean hasPaths()	{
+		if (cellVal > 1)
+			return true;
+		return false;
+	}
+	
 	/**
 	 * Prints out the position in a nice way for a certain cell
 	 * @return

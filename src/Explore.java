@@ -18,8 +18,7 @@ public class Explore implements Behavior{
 	public Cell prev;
 	public ArrayList<Cell> toBeVisited;
 	public ArrayList<Cell> path;
-	
-	
+	public static final int cellD = 30;
 	/**
 	 * constructor
 	 * @param robot
@@ -52,17 +51,27 @@ public class Explore implements Behavior{
 		
 		catch(InterruptedException ie) {}
 		
-		// has more than one path remaining
+		
+		// has more than one path remaining && not checked
 		if (curr.cellVal > 1 && !toBeVisited.contains(curr))
 			toBeVisited.add(0, curr);
 		// once identified as an obstacle
-		else if (curr.cellVal == -1)	{
+		else if (curr.isObstacle())	{
 			path.remove(curr);
 			toBeVisited.remove(curr);
 			prev.removeAPath();
 			curr = prev;	// backtracking
 		}
+		// has more than one path remaining && not in a path
+		if(curr.cellVal > 1 && !path.contains(curr))
+			path.add(curr);
 		
+		// explore adjacent cells
+		
+
+		Cell temp = toBeVisited.remove(0);		// step to be taken
+		// compare positing to match direction
+//		 robot.travel(cellD);
 			
 //		if (random == 0)
 //			robot.forward();

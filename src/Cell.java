@@ -67,6 +67,19 @@ public class Cell {
 		this.ManhattanD = distance;
 	}
 	
+	public void removeAPath()	{
+		if (cellVal >= 1 )
+			this.cellVal -=1;
+		else
+			return;
+	}
+	
+	public boolean isObstacle()	{
+		if (cellVal == -1)
+			return true;
+		return false;
+	}
+	
 	/**
 	 * Prints out the position in a nice way for a certain cell
 	 * @return

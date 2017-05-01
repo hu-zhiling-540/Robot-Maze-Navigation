@@ -15,7 +15,7 @@ public class Cell {
 	
 	public int cellVal;
 	public int[] pos = new int[2];	// [row][col]
-	public int ManhattanD;
+//	public int ManhattanD;
 	
 	/**
 	 * Default Constructor
@@ -58,14 +58,14 @@ public class Cell {
 	public void setValue(int cellVal)	{
 		this.cellVal = cellVal;
 	}
-	
-	/**
-	 * Assigns manhattanDistance for each cell
-	 * @param distance
-	 */
-	public void setManhattanDist(int distance)	{
-		this.ManhattanD = distance;
-	}
+//	
+//	/**
+//	 * Assigns manhattanDistance for each cell
+//	 * @param distance
+//	 */
+//	public void setManhattanDist(int distance)	{
+//		this.ManhattanD = distance;
+//	}
 	
 	public void removeAPath()	{
 		if (cellVal >= 1 )
@@ -74,22 +74,29 @@ public class Cell {
 			return;
 	}
 	
+	/**
+	 * Will return true if the cell is an obstacle
+	 * @return
+	 */
 	public boolean isObstacle()	{
 		if (cellVal == -1)
 			return true;
 		return false;
 	}
 	
-	public boolean hasAPath()	{
+	/**
+	 * Will return true if the cell is visited 
+	 * and all possible routes emerging from it have been tried
+	 * @return
+	 */
+	public boolean isDeadEnd()	{
 		if (cellVal == 1)
 			return true;
 		return false;
 	}
 	
-	public boolean hasPaths()	{
-		if (cellVal > 1)
-			return true;
-		return false;
+	public void setDeadEnd()	{
+		cellVal = 1;
 	}
 	
 	/**

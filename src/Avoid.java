@@ -1,4 +1,8 @@
 import lejos.robotics.navigation.DifferentialPilot;
+import lejos.robotics.objectdetection.Feature;
+import lejos.robotics.objectdetection.FeatureDetector;
+import lejos.robotics.objectdetection.FeatureListener;
+import lejos.robotics.objectdetection.RangeFeatureDetector;
 import lejos.robotics.subsumption.*; 
 import lejos.nxt.*;
 
@@ -9,12 +13,16 @@ import lejos.nxt.*;
  * @author Guest
  *
  */
-public class Avoid implements Behavior{
+public class Avoid implements Behavior, FeatureListener{
 	
 	public DifferentialPilot robot;
 
-	public TouchSensor frontBump;
-	// Ultrasonic sensor
+	public TouchSensor frontBump;// an instance of a touch sensor
+	public UltrasonicSensor usonic;  // an instance of an ultrasonic sensor
+	public int MAX_DISTANCE = 50; // in centimeters
+	public int PERIOD = 500; // in milliseconds
+	public FeatureDetector fd;  
+	
 	public boolean frontPressed;
 	
 	public static final int cellD = 30;
@@ -33,11 +41,24 @@ public class Avoid implements Behavior{
 		frontPressed = false;
 		//System.out.println("Avoid");
 	}
+	public Avoid(DifferentialPilot robot, UltrasonicSensor usonic) {
+		
+		this.robot = robot;
+		this.usonic = usonic;
+		//ObjectDetect listener = new ObjectDetect(); 
+		fd = new RangeFeatureDetector(usonic, MAX_DISTANCE, PERIOD); 
+		//System.out.println("Avoid");
+	}
+	// perform a scan and retrieve data
+	public void getDetectorData() { 
+		Feature result = fd.scan(); 
+		if(result != null) { 
+			System.out.println("Range: " + result.getRangeReading().getRange()); ;
+		}
+	}	
 	
 	@Override
-	public boolean takeControl() {
-		return frontBump.isPressed();
-	}
+	public boolean takeControl() { return frontBump.isPressed(); } 
 	
 	@Override
 	public void action() {
@@ -57,10 +78,15 @@ public class Avoid implements Behavior{
 		else
 			robot.rotate(-90);	
 	}
-
+	
 	@Override
-	public void suppress() {
-		robot.stop();	
+	public void suppress() { robot.stop(); }
+	
+	@Override
+	// featureLister code will be notified when an object is detected
+	public void featureDetected(Feature feature, FeatureDetector detector) {
+		int range = (int) feature.getRangeReading().getRange(); 
+		Sound.playTone(1200-(range *10), 100);
+		System.out.println("Range: " + range);	
 	}
-
 }

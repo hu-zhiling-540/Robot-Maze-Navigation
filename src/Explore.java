@@ -1,6 +1,5 @@
 import java.util.ArrayList;
 
-//import lejos.nxt.LightSensor;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.subsumption.*; 
 
@@ -17,7 +16,6 @@ public class Explore implements Behavior{
 
 	public Cell prev;
 	public Cell curr;
-//	public Cell next;
 	
 	public ArrayList<Cell> toCheck;
 	public ArrayList<Cell> path;
@@ -25,19 +23,23 @@ public class Explore implements Behavior{
 	
 	public boolean reachGoal;
 	
+	
 	/**
 	 * constructor
 	 * @param robot
 	 */
 	public Explore(DifferentialPilot robot, World world)	{
-		toCheck = new ArrayList<Cell>();
-		path = new ArrayList<Cell>();
-		this.robot = robot;
-		this.world = world;
-		maze = this.world.world;
 		
-		curr = this.world.start;
-		prev = this.world.start;
+		toCheck = new ArrayList<Cell>();	// works as a stack for cells that to be checked next
+		path = new ArrayList<Cell>();		// records the path of walking through the maze
+		
+		this.robot = robot;
+		this.world = world;		// the world class 
+		
+		maze = world.world;		// the grid
+		
+		curr = world.start;
+		prev = world.start;
 		
 		
 		System.out.println("Explore");
@@ -51,12 +53,96 @@ public class Explore implements Behavior{
 	@Override
 	public void action() {
 
+		// if goal is reached
 		if (reachGoal)	{
+			
 			// if never visited or a real obstacle, mark the cell as obstacle
 			// set start point
 			
+			// create a path using DFS algorith
 			world.createAPath();
+			
+			// reverse the path
 			path = world.reverse();
+			
+			prev = path.get(0);
+			curr = path.remove(0);		// goal cell
+			
+			// walk the robot back to the starting cell
+			
+			Cell temp = path.remove(0);		// next step to be taken
+			
+			while (!path.isEmpty())	{
+				
+				// if prev and curr are in the same row
+				if (prev.row == curr.row)		{
+					// temp is in the lower left corner
+					if ((temp.row < prev.row && temp.col < prev.col) 
+							||(temp.row > prev.row && temp.col > prev.col))	{	// or upper right corner
+						robot.rotateLeft();
+						try {
+							Thread.yield();
+							Thread.sleep(1000); // stops for a short time (one second)
+						}
+						
+						catch(InterruptedException ie) {}
+					}
+					
+					// if not in the same direction
+					else if (curr.row != temp.row)	{
+						robot.rotateRight();
+						try {
+							Thread.yield();
+							Thread.sleep(1000); // stops for a short time (one second)
+						}
+						
+						catch(InterruptedException ie) {}
+					}
+					
+					// if in the same direction, no need to rotate
+				}
+				
+				// if prev and curr are in the same col
+				else		{
+					// temp is in the lower right corner
+					if ((temp.row > prev.row && temp.col > prev.col) 
+							||(temp.row < prev.row && temp.col < prev.col))		{	// or upper left corner
+						robot.rotateLeft();
+						try {
+							Thread.yield();
+							Thread.sleep(1000); // stops for a short time (one second)
+						}
+						
+						catch(InterruptedException ie) {}
+					}
+					
+					// if not in the same direction
+					else if (curr.col != temp.col)	{
+						robot.rotateRight();
+						try {
+							Thread.yield();
+							Thread.sleep(1000); // stops for a short time (one second)
+						}
+						
+						catch(InterruptedException ie) {}
+					}
+					
+					// if in the same direction, no need to rotate
+
+				}
+				
+				// travel in the designated direction
+				robot.travel(cellD);
+				try {
+					Thread.yield();
+					Thread.sleep(1000); // stops for a short time (one second)
+				}
+				
+				catch(InterruptedException ie) {}
+				
+				prev = curr;
+				curr = temp;
+			}
 		}
 		
 		try {
@@ -67,9 +153,9 @@ public class Explore implements Behavior{
 		catch(InterruptedException ie) {}
 		
 		// if it is a starting cell
-		if (curr.pos == world.start.pos)	{
-			curr.setVisited();
-			path.add(curr);
+		if (curr.row == world.start.row && curr.col == world.start.col)	{
+			world.setVisited(curr);
+			path.add(maze[curr.row][curr.col]);
 //			checkAround(curr);
 		}
 		else	{
@@ -79,15 +165,16 @@ public class Explore implements Behavior{
 			
 			// check about the current cell
 			// at least one path hasn't been tried on curr cell (i.e not a dead end) 
-			if (curr.cellVal > 1)
-				toCheck.add(0, prev);	// put previous cell back 
+//			if (curr.cellVal > 1)
+//				toCheck.add(0, prev);	// put previous cell back 
 			
 			// once identified as an obstacle (cell value = -1)
-			else if (curr.isObstacle())	{
+			if (curr.isObstacle())	{
 				toCheck.remove(curr);
 				prev.removeAPath();		// a path has been found as a dead end
 				curr = prev;	// backtracking
 			}
+			
 			// has more than one path remaining && not in a path
 			if(curr.cellVal > 1 && !path.contains(curr))
 				path.add(curr);
@@ -101,22 +188,25 @@ public class Explore implements Behavior{
 		if (toCheck.isEmpty() && curr.isDeadEnd())
 			return;		// exit
 		
+		
 		Cell temp = toCheck.remove(0);		// next step to be taken
 		// compare positing to match direction
 		
 		
-		// goes back to previous cell
-		if (temp.pos == prev.pos)	{
+		// have the chance to walk back to the previous cell
+		if (temp.row == prev.row && temp.col == prev.col)	{
 			prev = curr;	// override it to be the current cell
 //			robot.rotate(180);
 //			robot.travel(cellD);
 		}
+		// other cells
 		else	{
+			
 			// if prev and curr are in the same row
-			if (prev.pos[0] == curr.pos[0])		{
+			if (prev.row == curr.row)		{
 				// temp is in the lower left corner
-				if ((temp.pos[0] < prev.pos[0] && temp.pos[1] < prev.pos[1]) 
-						||(temp.pos[0] > prev.pos[0] && temp.pos[1] > prev.pos[1]))	{	// upper right corner
+				if ((temp.row < prev.row && temp.col < prev.col) 
+						||(temp.row > prev.row && temp.col > prev.col))	{	// or upper right corner
 					robot.rotateLeft();
 					try {
 						Thread.yield();
@@ -127,7 +217,7 @@ public class Explore implements Behavior{
 				}
 				
 				// if not in the same direction
-				else if (curr.pos[0] != temp.pos[0])	{
+				else if (curr.row != temp.row)	{
 					robot.rotateRight();
 					try {
 						Thread.yield();
@@ -143,8 +233,8 @@ public class Explore implements Behavior{
 			// if prev and curr are in the same col
 			else		{
 				// temp is in the lower right corner
-				if ((temp.pos[0] > prev.pos[0] && temp.pos[1] > prev.pos[1]) 
-						||(temp.pos[0] < prev.pos[0] && temp.pos[1] < prev.pos[1]))		{// upper left corner
+				if ((temp.row > prev.row && temp.col > prev.col) 
+						||(temp.row < prev.row && temp.col < prev.col))		{	// or upper left corner
 					robot.rotateLeft();
 					try {
 						Thread.yield();
@@ -155,7 +245,7 @@ public class Explore implements Behavior{
 				}
 				
 				// if not in the same direction
-				else if (curr.pos[1] != temp.pos[1])	{
+				else if (curr.col != temp.col)	{
 					robot.rotateRight();
 					try {
 						Thread.yield();
@@ -179,33 +269,33 @@ public class Explore implements Behavior{
 			catch(InterruptedException ie) {}
 		}
 		
+		world.setVisited(curr);		// sync with the maze in the world
 		prev = curr;
 		curr = temp;
 	}
 	
+	
 	public void checkAround(Cell cell)	{
-		int row = cell.pos[0];
-		int col = cell.pos[1];
 		int counter = 0;
 		
 		// up
-		if (!maze[row+1][col].isObstacle() && !maze[row+1][col].isDeadEnd())	{
-			toCheck.add(0,maze[row+1][col]);
+		if (!maze[cell.row+1][cell.col].isObstacle() && !maze[cell.row+1][cell.col].isDeadEnd())	{
+			toCheck.add(0,maze[cell.row+1][cell.col]);
 			counter ++;
 		}
 		// down
-		if (!maze[row-1][col].isObstacle() && !maze[row-1][col].isDeadEnd())	{
-			toCheck.add(0,maze[row-1][col]);
+		if (!maze[cell.row-1][cell.col].isObstacle() && !maze[cell.row-1][cell.col].isDeadEnd())	{
+			toCheck.add(0,maze[cell.row-1][cell.col]);
 			counter ++;
 		}
 		// left
-		if (!maze[row][col-1].isObstacle() && !maze[row][col-1].isDeadEnd())	{
-			toCheck.add(0,maze[row][col-1]);
+		if (!maze[cell.row][cell.col-1].isObstacle() && !maze[cell.row][cell.col-1].isDeadEnd())	{
+			toCheck.add(0,maze[cell.row][cell.col-1]);
 			counter ++;
 		}
 		// right
-		if (!maze[row][col+1].isObstacle() && !maze[row][col+1].isDeadEnd())	{
-			toCheck.add(0,maze[row][col+1]);
+		if (!maze[cell.row][cell.col+1].isObstacle() && !maze[cell.row][cell.col+1].isDeadEnd())	{
+			toCheck.add(0,maze[cell.row][cell.col+1]);
 			counter ++;	
 		}
 		

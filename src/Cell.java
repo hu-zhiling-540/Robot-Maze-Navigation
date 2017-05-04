@@ -14,7 +14,8 @@ public class Cell {
 //	Pick the first path and leave the other two unexplored, so mark the cell with a 3.
 	
 	public int cellVal;
-	public int[] pos = new int[2];	// [row][col]
+	public int row;
+	public int col;
 	public boolean visited;
 //	public int ManhattanD;
 	
@@ -34,8 +35,8 @@ public class Cell {
 	 * @param col
 	 */
 	public Cell(int row, int col)	{
-		pos[0] = row;
-		pos[1] = col;
+		this.row = row;
+		this.col = col;
 		cellVal = 0;	// unvisited or unreachable
 		visited = false;
 	}
@@ -112,7 +113,7 @@ public class Cell {
 	 * @return
 	 */
 	public String printPos()	{
-		String pos = "( " + this.pos[0] + ", " + this.pos[1] + " )";
+		String pos = "( " + this.row + ", " + this.col + " )";
 		return pos;
 	}
 
@@ -120,6 +121,7 @@ public class Cell {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
 	
 	
 	

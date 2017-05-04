@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class World {
@@ -102,6 +101,10 @@ public class World {
 		return back;
 	}
 	
+	public void setVisited(Cell cell)	{
+		world[cell.row][cell.col].setVisited();
+	}
+	
 	/**
 	 * Depth First Search
 	 */
@@ -110,7 +113,7 @@ public class World {
 		Cell temp = stack.remove(0);
 		
 		// if it is the goal
-		if (temp.pos == goal.pos)	{
+		if (temp.row == goal.row && temp.col == goal.col)	{
 			System.out.println("Reach Goal!");
 //			printPath();
 			return;		// done!
@@ -119,24 +122,22 @@ public class World {
 		else {
 			
 			ArrayList<Cell> nbrs = new ArrayList<Cell>();
-			int row = temp.pos[0];
-			int col = temp.pos[1];
 			
 			// adjacent top cell
-			if (world[row+1][col].visited)
-				nbrs.add(world[row+1][col]);
+			if (world[temp.row+1][temp.col].visited)
+				nbrs.add(world[temp.row+1][temp.col]);
 			
 			// adjacent bottom cell
-			if (world[row-1][col].visited)
-				nbrs.add(world[row-1][col]);
+			if (world[temp.row-1][temp.col].visited)
+				nbrs.add(world[temp.row-1][temp.col]);
 			
 			// adjacent left cell
-			if (world[row][col-1].visited)
-				nbrs.add(world[row][col-1]);
+			if (world[temp.row][temp.col-1].visited)
+				nbrs.add(world[temp.row][temp.col-1]);
 			
 			// adjacent right cell
-			if (world[row][col+1].visited)	
-				nbrs.add(world[row][col+1]);
+			if (world[temp.row][temp.col+1].visited)	
+				nbrs.add(world[temp.row][temp.col+1]);
 			
 			if (nbrs.size()>0)	{
 				Cell next = nbrs.get(0);

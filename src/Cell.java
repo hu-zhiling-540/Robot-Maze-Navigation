@@ -15,16 +15,18 @@ public class Cell {
 	
 	public int cellVal;
 	public int[] pos = new int[2];	// [row][col]
+	public boolean visited;
 //	public int ManhattanD;
 	
-	/**
-	 * Default Constructor
-	 */
-	public Cell()	{
-		pos[0] = -1;
-		pos[1] = -1;
-		cellVal = 0;	// unvisited or unreachable
-	}
+//	/**
+//	 * Default Constructor
+//	 */
+//	public Cell()	{
+//		pos[0] = -1;
+//		pos[1] = -1;
+//		cellVal = 0;	// unvisited or unreachable
+//		visited = false;
+//	}
 	
 	/**
 	 * A constructor that takes in x, y coordinates
@@ -35,21 +37,23 @@ public class Cell {
 		pos[0] = row;
 		pos[1] = col;
 		cellVal = 0;	// unvisited or unreachable
+		visited = false;
 	}
 	
-	
-	/**
-	 * A constructor that takes in x, y coordinates, and cell value
-	 * @param row
-	 * @param col
-	 * @param cellVal
-	 */
-	public Cell(int row, int col, int cellVal)	{
-		pos[0] = row;
-		pos[1] = col;
-		this.cellVal = cellVal;
-	}
-	
+//	
+//	/**
+//	 * A constructor that takes in x, y coordinates, and cell value
+//	 * @param row
+//	 * @param col
+//	 * @param cellVal
+//	 */
+//	public Cell(int row, int col, int cellVal)	{
+//		pos[0] = row;
+//		pos[1] = col;
+//		this.cellVal = cellVal;
+//		visited = false;
+//	}
+//	
 	
 	/**
 	 * Assigns a value to the cell
@@ -57,6 +61,10 @@ public class Cell {
 	 */
 	public void setValue(int cellVal)	{
 		this.cellVal = cellVal;
+	}
+	
+	public void setVisited()	{
+		visited = true;
 	}
 //	
 //	/**

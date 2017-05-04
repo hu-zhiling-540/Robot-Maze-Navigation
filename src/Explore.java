@@ -22,6 +22,9 @@ public class Explore implements Behavior{
 	public ArrayList<Cell> toCheck;
 	public ArrayList<Cell> path;
 	public static final int cellD = 30;
+	
+	public boolean reachGoal;
+	
 	/**
 	 * constructor
 	 * @param robot
@@ -47,7 +50,11 @@ public class Explore implements Behavior{
 
 	@Override
 	public void action() {
-//		int random = (int) (Math.random() * 3);		// creates a random number from 0 to 2
+
+		if (reachGoal)	{
+			// if never visited or a real obstacle, mark the cell as obstacle
+			// set start point
+		}
 		
 		try {
 			Thread.yield();
@@ -56,63 +63,123 @@ public class Explore implements Behavior{
 		
 		catch(InterruptedException ie) {}
 		
-		// at least one path hasn't been tried on curr cell (i.e not a dead end) 
-		if (curr.cellVal > 1)
-			toCheck.add(0, prev);	// push back previous cell 
-		// once identified as an obstacle
-		else if (curr.isObstacle())	{
-			path.remove(curr);
-			toCheck.remove(curr);
-			prev.removeAPath();
-			curr = prev;	// backtracking
-		}
-		// has more than one path remaining && not in a path
-		if(curr.cellVal > 1 && !path.contains(curr))
+		// if it is a starting cell
+		if (curr.pos == world.start.pos)	{
+			curr.setVisited();
 			path.add(curr);
+//			checkAround(curr);
+		}
+		else	{
+//			// when we reach to this cell, we must have come from its adjacent cell
+//			// thus a path has been explored
+//			curr.removeAPath();
+			
+			// check about the current cell
+			// at least one path hasn't been tried on curr cell (i.e not a dead end) 
+			if (curr.cellVal > 1)
+				toCheck.add(0, prev);	// put previous cell back 
+			
+			// once identified as an obstacle (cell value = -1)
+			else if (curr.isObstacle())	{
+				toCheck.remove(curr);
+				prev.removeAPath();		// a path has been found as a dead end
+				curr = prev;	// backtracking
+			}
+			// has more than one path remaining && not in a path
+			if(curr.cellVal > 1 && !path.contains(curr))
+				path.add(curr);
+		}
 		
-		// explore adjacent cells
+		// for next step
+		// explore adjacent cells 
 		checkAround(curr);
 		
+		// after checking adjacent cells, nothing in the stack
 		if (toCheck.isEmpty() && curr.isDeadEnd())
 			return;		// exit
-		Cell temp = toCheck.remove(0);		// step to be taken
+		
+		Cell temp = toCheck.remove(0);		// next step to be taken
 		// compare positing to match direction
+		
 		
 		// goes back to previous cell
 		if (temp.pos == prev.pos)	{
 			prev = curr;	// override it to be the current cell
-			robot.travel(cellD);
+//			robot.rotate(180);
+//			robot.travel(cellD);
 		}
 		else	{
 			// if prev and curr are in the same row
 			if (prev.pos[0] == curr.pos[0])		{
 				// temp is in the lower left corner
 				if ((temp.pos[0] < prev.pos[0] && temp.pos[1] < prev.pos[1]) 
-						||(temp.pos[0] > prev.pos[0] && temp.pos[1] > prev.pos[1]))	// upper right corner
+						||(temp.pos[0] > prev.pos[0] && temp.pos[1] > prev.pos[1]))	{	// upper right corner
 					robot.rotateLeft();
+					try {
+						Thread.yield();
+						Thread.sleep(1000); // stops for a short time (one second)
+					}
+					
+					catch(InterruptedException ie) {}
+				}
+				
 				// if not in the same direction
-				else if (curr.pos[0] != temp.pos[0])
+				else if (curr.pos[0] != temp.pos[0])	{
 					robot.rotateRight();
+					try {
+						Thread.yield();
+						Thread.sleep(1000); // stops for a short time (one second)
+					}
+					
+					catch(InterruptedException ie) {}
+				}
+				
 				// if in the same direction, no need to rotate
-				robot.travel(cellD);
 			}
+			
 			// if prev and curr are in the same col
 			else		{
 				// temp is in the lower right corner
 				if ((temp.pos[0] > prev.pos[0] && temp.pos[1] > prev.pos[1]) 
-						||(temp.pos[0] < prev.pos[0] && temp.pos[1] < prev.pos[1]))	// upper left corner
+						||(temp.pos[0] < prev.pos[0] && temp.pos[1] < prev.pos[1]))		{// upper left corner
 					robot.rotateLeft();
-				// if not in the same direction
-				else if (curr.pos[1] != temp.pos[1])
-					robot.rotateRight();
-				// if in the same direction, no need to rotate
-				robot.travel(cellD);
-			}
+					try {
+						Thread.yield();
+						Thread.sleep(1000); // stops for a short time (one second)
+					}
+					
+					catch(InterruptedException ie) {}
 				}
+				
+				// if not in the same direction
+				else if (curr.pos[1] != temp.pos[1])	{
+					robot.rotateRight();
+					try {
+						Thread.yield();
+						Thread.sleep(1000); // stops for a short time (one second)
+					}
+					
+					catch(InterruptedException ie) {}
+				}
+				
+				// if in the same direction, no need to rotate
+
+			}
+			
+			// travel in the designated direction
+			robot.travel(cellD);
+			try {
+				Thread.yield();
+				Thread.sleep(1000); // stops for a short time (one second)
+			}
+			
+			catch(InterruptedException ie) {}
+		}
 		
 		prev = curr;
 		curr = temp;
 	}
+	
 	public void checkAround(Cell cell)	{
 		int row = cell.pos[0];
 		int col = cell.pos[1];

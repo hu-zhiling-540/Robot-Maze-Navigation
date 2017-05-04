@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class World {
@@ -81,6 +82,88 @@ public class World {
 	}
 	
 	
+	/**
+	 * Sets start state
+	 * @param x
+	 * @param y
+	 */
+	public void setStart(int x, int y)	{
+		
+		path.add(start);
+		
+		stack.add(0, start);
+		
+		System.out.println("Depth First Search: ");
+		dfs();
+		
+//		printWorld();
+	}
+	
+	/**
+	 * Depth First Search
+	 */
+	public void dfs()	{
+		// pop the stack;
+		Cell temp = stack.remove(0);
+		
+		// if (item popped == final cell)
+		if (temp.pos == goal.pos)	{
+			System.out.println("Reach Goal!");
+//			printPath();
+			return;		// done!
+		}
+		
+		else {
+			
+			ArrayList<Cell> nbrs = new ArrayList<Cell>();
+			int row = temp.pos[0];
+			int col = temp.pos[1];
+			
+			// adjacent top cell
+			if (world[row+1][col].visited)
+				nbrs.add(world[row+1][col]);
+			
+			// adjacent bottom cell
+			if (world[row-1][col].visited)
+				nbrs.add(world[row-1][col]);
+			
+			// adjacent left cell
+			if (world[row][col-1].visited)
+				nbrs.add(world[row][col-1]);
+			
+			// adjacent right cell
+			if (world[row][col+1].visited)	
+				nbrs.add(world[row][col+1]);
+			
+			if (nbrs.size()>0)	{
+				Cell next = nbrs.get(0);
+				
+//				for (int i = 0; i < nbrs.size(); i++)	{
+//					if (nbrs.get(i).value < next.value)
+//						next = nbrs.get(i);
+				
+//				System.out.println("looking next"+ next.col + next.row + next.value);
+				path.add(next);
+				stack.add(0, next);
+			}
+				dfs();	
+		}
+	}
+	
+	
+	
+	/**
+	 * Checks if the cell is visited before
+	 * @param col
+	 * @param row
+	 * @return
+	 */
+	public Boolean isVisited(int col, int row)	{
+		if (world[row][col].visited)
+			return true;
+		
+		return false;
+	}
 	/**
 	 * A method that reads in two sets of x and y coordinates:
 	 * the first set of coordinates is the lower-left corner of the obstacle, 

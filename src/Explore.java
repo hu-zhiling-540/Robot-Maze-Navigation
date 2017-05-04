@@ -188,10 +188,7 @@ public class Explore implements Behavior{
 		if (toCheck.isEmpty() && curr.isDeadEnd())
 			return;		// exit
 		
-		
 		Cell temp = toCheck.remove(0);		// next step to be taken
-		// compare positing to match direction
-		
 		
 		// have the chance to walk back to the previous cell
 		if (temp.row == prev.row && temp.col == prev.col)	{

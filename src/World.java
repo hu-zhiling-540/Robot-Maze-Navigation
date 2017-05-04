@@ -13,7 +13,6 @@ public class World {
 	private int numRows;
 	private int numCols;;
 	
-//	private static final cell_width = 
 
 	public World(int numRows, int numCols, int[] start, int[] goal)	{
 		
@@ -27,8 +26,7 @@ public class World {
 		this.start = world[start[0]][start[1]];		// set up starting cell's coordinates
 		this.goal = world[goal[0]][goal[1]];		// set up goal cell's coordinates
 		
-		stack = new ArrayList<Cell>();
-		path = new ArrayList<Cell>();
+		
 	}
 	
 	
@@ -86,14 +84,19 @@ public class World {
 	 */
 	public void createAPath()	{
 		
-		path.add(start);
-		stack.add(0, start);
+		stack = new ArrayList<Cell>();
+		path = new ArrayList<Cell>();
 		
-		System.out.println("Depth First Search: ");
+		path.add(start);		// adds starting cell as the first step
+		stack.add(0, start);	// adds starting cell
 		dfs();
-		
-//		printWorld();
 	}
+	
+	
+	/**
+	 * 
+	 * @return
+	 */
 	public ArrayList<Cell> reverse()	{
 		ArrayList<Cell> back = new ArrayList<Cell>();
 		for (int i = path.size()-1; i >= 0; i--)
@@ -101,9 +104,15 @@ public class World {
 		return back;
 	}
 	
+	
+	/**
+	 * Finds the cell in the maze and marks it visited
+	 * @param cell
+	 */
 	public void setVisited(Cell cell)	{
 		world[cell.row][cell.col].setVisited();
 	}
+	
 	
 	/**
 	 * Depth First Search
@@ -114,8 +123,6 @@ public class World {
 		
 		// if it is the goal
 		if (temp.row == goal.row && temp.col == goal.col)	{
-			System.out.println("Reach Goal!");
-//			printPath();
 			return;		// done!
 		}
 		
@@ -141,19 +148,13 @@ public class World {
 			
 			if (nbrs.size()>0)	{
 				Cell next = nbrs.get(0);
-				
-//				for (int i = 0; i < nbrs.size(); i++)	{
-//					if (nbrs.get(i).value < next.value)
-//						next = nbrs.get(i);
-				
-//				System.out.println("looking next"+ next.col + next.row + next.value);
 				path.add(next);
 				stack.add(0, next);
 			}
-				dfs();	
+
+			dfs();		// recursive call
 		}
 	}
-	
 	
 	
 	/**
@@ -168,6 +169,8 @@ public class World {
 		
 		return false;
 	}
+	
+	
 	/**
 	 * A method that reads in two sets of x and y coordinates:
 	 * the first set of coordinates is the lower-left corner of the obstacle, 
@@ -193,19 +196,6 @@ public class World {
 	}
 	
 	
-//	/**
-//	 * Calculates the Manhattan Distance bewteen goal and a certain cell
-//	 * @param cell
-//	 * @return
-//	 */
-//	public int manhattanDist(Cell cell)	{
-//		int row = cell.pos[0];
-//		int col = cell.pos[1];
-//		int absD = Math.abs(row - goal.pos[0]) + Math.abs(col - goal.pos[1]);
-//		return absD;
-//	}
-//	
-	
 	/**
 	 * Prints the world and the value each cell holds
 	 */
@@ -219,6 +209,7 @@ public class World {
 		}
 		System.out.println(s);
 	}
+	
 	
 	/**
 	 * Prints the world and the value each cell holds

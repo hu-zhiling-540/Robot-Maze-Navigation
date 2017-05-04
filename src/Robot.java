@@ -11,8 +11,8 @@ import lejos.robotics.subsumption.Behavior;
  * Authors: Zhiling Hu and Sabrina Accime 
  * Prof. Lisa Ballestors
  * Artificial Intelligence
- * Lab04
- * April 9, 2017
+ * Final Lab
+ * May 8, 2017
  */
 public class Robot {
 	

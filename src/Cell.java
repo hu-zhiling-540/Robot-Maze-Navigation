@@ -67,21 +67,18 @@ public class Cell {
 	public void setVisited()	{
 		visited = true;
 	}
-//	
-//	/**
-//	 * Assigns manhattanDistance for each cell
-//	 * @param distance
-//	 */
-//	public void setManhattanDist(int distance)	{
-//		this.ManhattanD = distance;
-//	}
 	
+	
+	/**
+	 * Cut off one path
+	 */
 	public void removeAPath()	{
 		if (cellVal >= 1 )
 			this.cellVal -=1;
 		else
 			return;
 	}
+	
 	
 	/**
 	 * Will return true if the cell is an obstacle
@@ -92,6 +89,7 @@ public class Cell {
 			return true;
 		return false;
 	}
+	
 	
 	/**
 	 * Will return true if the cell is visited 
@@ -104,9 +102,14 @@ public class Cell {
 		return false;
 	}
 	
+	
+	/**
+	 * Sets the cell value to be one
+	 */
 	public void setDeadEnd()	{
 		cellVal = 1;
 	}
+	
 	
 	/**
 	 * Prints out the position in a nice way for a certain cell
@@ -117,10 +120,6 @@ public class Cell {
 		return pos;
 	}
 
-	public boolean isVisited() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 	
 	
 	

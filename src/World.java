@@ -84,19 +84,22 @@ public class World {
 	
 	/**
 	 * Sets start state
-	 * @param x
-	 * @param y
 	 */
-	public void setStart(int x, int y)	{
+	public void createAPath()	{
 		
 		path.add(start);
-		
 		stack.add(0, start);
 		
 		System.out.println("Depth First Search: ");
 		dfs();
 		
 //		printWorld();
+	}
+	public ArrayList<Cell> reverse()	{
+		ArrayList<Cell> back = new ArrayList<Cell>();
+		for (int i = path.size()-1; i >= 0; i--)
+			back.add(path.get(i));
+		return back;
 	}
 	
 	/**
@@ -106,7 +109,7 @@ public class World {
 		// pop the stack;
 		Cell temp = stack.remove(0);
 		
-		// if (item popped == final cell)
+		// if it is the goal
 		if (temp.pos == goal.pos)	{
 			System.out.println("Reach Goal!");
 //			printPath();

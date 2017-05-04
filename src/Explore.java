@@ -54,6 +54,9 @@ public class Explore implements Behavior{
 		if (reachGoal)	{
 			// if never visited or a real obstacle, mark the cell as obstacle
 			// set start point
+			
+			world.createAPath();
+			path = world.reverse();
 		}
 		
 		try {

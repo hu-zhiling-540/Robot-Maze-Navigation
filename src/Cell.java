@@ -115,6 +115,11 @@ public class Cell {
 		String pos = "( " + this.pos[0] + ", " + this.pos[1] + " )";
 		return pos;
 	}
+
+	public boolean isVisited() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 	
 	

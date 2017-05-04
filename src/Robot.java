@@ -40,12 +40,12 @@ public class Robot {
     	DifferentialPilot robot = new DifferentialPilot(5.6f, 11.0f, Motor.A, Motor.C, true);   
     	
     	robot.setTravelSpeed(TRAVEL_DIST);
-    	Behavior Explore = new Explore(robot, maze);     
-    	Behavior Avoid = new Avoid(robot, frontBump);
-        Behavior Goal = new ReachGoal(robot, true);
+    	Behavior explore = new Explore(robot, maze);     
+    	Behavior avoid = new Avoid(robot, frontBump, (Explore) explore);	// should also take explore as parameters
+        Behavior reachGoal = new ReachGoal(robot, light, (Explore) explore);		// should also take explore as parameters
         
         // array of behaviors will be passed to arbitrator
-        Behavior [] bArr = {Explore, Avoid, Goal}; 
+        Behavior [] bArr = {explore, avoid, reachGoal}; 
         
         //creates the arbitrator 
         Arbitrator arby = new Arbitrator(bArr); 

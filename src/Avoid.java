@@ -25,6 +25,8 @@ public class Avoid implements Behavior, FeatureListener{
 	
 	public boolean frontPressed;
 	
+	public Explore explore;
+	
 	public static final int cellD = 30;
 	
 	
@@ -34,21 +36,24 @@ public class Avoid implements Behavior, FeatureListener{
 	 * @param robot
 	 * @param frontBump
 	 */
-	public Avoid(DifferentialPilot robot, TouchSensor frontBump) {
+	public Avoid(DifferentialPilot robot, TouchSensor frontBump, Explore explore) {
 		
 		this.robot = robot;
 		this.frontBump = frontBump;
 		frontPressed = false;
 		//System.out.println("Avoid");
+		this.explore = explore;
 	}
-	public Avoid(DifferentialPilot robot, UltrasonicSensor usonic) {
-		
-		this.robot = robot;
-		this.usonic = usonic;
-		//ObjectDetect listener = new ObjectDetect(); 
-		fd = new RangeFeatureDetector(usonic, MAX_DISTANCE, PERIOD); 
-		//System.out.println("Avoid");
-	}
+//	
+//	public Avoid(DifferentialPilot robot, UltrasonicSensor usonic) {
+//		
+//		this.robot = robot;
+//		this.usonic = usonic;
+//		//ObjectDetect listener = new ObjectDetect(); 
+//		fd = new RangeFeatureDetector(usonic, MAX_DISTANCE, PERIOD); 
+//		//System.out.println("Avoid");
+//	}
+	
 	// perform a scan and retrieve data
 	public void getDetectorData() { 
 		Feature result = fd.scan(); 
@@ -80,7 +85,9 @@ public class Avoid implements Behavior, FeatureListener{
 	}
 	
 	@Override
-	public void suppress() { robot.stop(); }
+	public void suppress() { 
+		robot.stop(); 
+	}
 	
 	@Override
 	// featureLister code will be notified when an object is detected

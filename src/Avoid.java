@@ -68,6 +68,8 @@ public class Avoid implements Behavior, FeatureListener{
 	@Override
 	public void action() {
 		
+//		explore.curr.setVisited();
+		
 		try {
 			Thread.yield();
 			Thread.sleep(1000); // stops for a short time (one second)

@@ -90,6 +90,13 @@ public class Cell {
 		return false;
 	}
 	
+	/**
+	 * Sets cell value to be -1
+	 * @return
+	 */
+	public void setObstacle()	{
+		cellVal = -1;
+	}
 	
 	/**
 	 * Will return true if the cell is visited 

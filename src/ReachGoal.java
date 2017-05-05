@@ -26,14 +26,13 @@ public class ReachGoal implements Behavior{
 		this.robot = robot;
 		this.light = light;
 		this.explore = explore;
-		System.out.println("Goal");
-		
 	}
 	
 	
 	@Override
 	public boolean takeControl() {
-		if(light.readValue() >= 40 && light.getFloodlight() == Color.WHITE ){ 
+		if(light.readValue() >= 45 || light.getFloodlight() == Color.WHITE ){ 
+			System.out.println("Goal");
 			return true;
 		}
 		return false;
@@ -59,6 +58,9 @@ public class ReachGoal implements Behavior{
 				e.printStackTrace();
 			}
 		}
+		
+		// rotate to face back
+		robot.rotate(180);
 		
 	}
 

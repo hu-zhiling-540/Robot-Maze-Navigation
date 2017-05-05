@@ -21,7 +21,7 @@ public class Explore implements Behavior{
 	public ArrayList<Cell> path;
 	public static final int cellD = 30;
 	
-	public boolean reachGoal;
+	public boolean reachGoal = false;
 	
 	
 	/**
@@ -41,8 +41,6 @@ public class Explore implements Behavior{
 		curr = world.start;
 		prev = world.start;
 		
-		
-		System.out.println("Explore");
 	}
 	
 	@Override
@@ -55,7 +53,7 @@ public class Explore implements Behavior{
 
 		// if goal is reached
 		if (reachGoal)	{
-			
+			System.out.println("Reach GOAL!!!!");
 			// if never visited or a real obstacle, mark the cell as obstacle
 			// set start point
 			
@@ -80,26 +78,43 @@ public class Explore implements Behavior{
 					if ((temp.row < prev.row && temp.col < prev.col) 
 							||(temp.row > prev.row && temp.col > prev.col))	{	// or upper right corner
 						robot.rotateLeft();
+						
 						try {
 							Thread.yield();
 							Thread.sleep(1000); // stops for a short time (one second)
 						}
 						
 						catch(InterruptedException ie) {}
+						
+						robot.travel(cellD, true);
+						System.out.println("yes");
 					}
 					
 					// if not in the same direction
 					else if (curr.row != temp.row)	{
 						robot.rotateRight();
+						
 						try {
 							Thread.yield();
 							Thread.sleep(1000); // stops for a short time (one second)
 						}
 						
 						catch(InterruptedException ie) {}
+						robot.travel(cellD);
 					}
 					
 					// if in the same direction, no need to rotate
+					else	{
+					
+						try {
+							Thread.yield();
+							Thread.sleep(1000); // stops for a short time (one second)
+						}
+						
+						catch(InterruptedException ie) {}
+						// travel in the designated direction
+						robot.travel(cellD);
+					}
 				}
 				
 				// if prev and curr are in the same col
@@ -114,6 +129,7 @@ public class Explore implements Behavior{
 						}
 						
 						catch(InterruptedException ie) {}
+						robot.travel(cellD);
 					}
 					
 					// if not in the same direction
@@ -125,21 +141,23 @@ public class Explore implements Behavior{
 						}
 						
 						catch(InterruptedException ie) {}
+						robot.travel(cellD);
 					}
 					
 					// if in the same direction, no need to rotate
-
+					else	{
+						
+						try {
+							Thread.yield();
+							Thread.sleep(1000); // stops for a short time (one second)
+						}
+						
+						catch(InterruptedException ie) {}
+						// travel in the designated direction
+						robot.travel(cellD);
+					}
+				
 				}
-				
-				// travel in the designated direction
-				robot.travel(cellD);
-				try {
-					Thread.yield();
-					Thread.sleep(1000); // stops for a short time (one second)
-				}
-				
-				catch(InterruptedException ie) {}
-				
 				prev = curr;
 				curr = temp;
 			}

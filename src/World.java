@@ -113,6 +113,14 @@ public class World {
 		world[cell.row][cell.col].setVisited();
 	}
 	
+	/**
+	 * Finds the cell in the maze and marks it visited
+	 * @param cell
+	 */
+	public void setObstacle(Cell cell)	{
+		world[cell.row][cell.col].setObstacle();;
+	}
+	
 	
 	/**
 	 * Depth First Search

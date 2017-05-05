@@ -24,7 +24,7 @@ public class Robot {
 	
 	// creates a touch sensor object and a light sensor object, and attach them to the relative port
 	protected static TouchSensor frontBump = new TouchSensor(SensorPort.S2);	// touch sensor in the front
-	protected static LightSensor light = new LightSensor(SensorPort.S3);
+	protected static LightSensor light = new LightSensor(SensorPort.S1);
 	protected static UltrasonicSensor usonic = new UltrasonicSensor(SensorPort.S4);
 
 	
@@ -36,12 +36,13 @@ public class Robot {
     	
     	int[] start = {1,1};
     	int[] goal = {5,8};
+    	
     	World maze = new World(7, 10, start, goal);
 //    	maze.printWorld();
     	
     	DifferentialPilot robot = new DifferentialPilot(5.6f, 11.0f, Motor.A, Motor.C, true);   
     	
-    	robot.setTravelSpeed(TRAVEL_DIST);
+    	robot.setTravelSpeed(10);
     	
     	Behavior explore = new Explore(robot, maze);     
     	Behavior avoid = new Avoid(robot, frontBump, usonic, (Explore) explore);	// should also take explore as parameters

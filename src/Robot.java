@@ -42,6 +42,7 @@ public class Robot {
     	DifferentialPilot robot = new DifferentialPilot(5.6f, 11.0f, Motor.A, Motor.C, true);   
     	
     	robot.setTravelSpeed(TRAVEL_DIST);
+    	
     	Behavior explore = new Explore(robot, maze);     
     	Behavior avoid = new Avoid(robot, frontBump, usonic, (Explore) explore);	// should also take explore as parameters
         Behavior reachGoal = new ReachGoal(robot, light, (Explore) explore);		// should also take explore as parameters

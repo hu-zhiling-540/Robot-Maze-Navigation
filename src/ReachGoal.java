@@ -30,7 +30,6 @@ public class ReachGoal implements Behavior{
 		
 	}
 	
-	// http://www.lejos.org/nxt/nxj/tutorial/LCD_Sensors/LCD_Sensors.htm#5
 	
 	@Override
 	public boolean takeControl() {
@@ -40,6 +39,7 @@ public class ReachGoal implements Behavior{
 		return false;
 	}
 
+	
 	@Override
 	public void action() {
 		

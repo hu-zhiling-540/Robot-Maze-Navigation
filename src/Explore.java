@@ -77,6 +77,7 @@ public class Explore implements Behavior{
 					// temp is in the lower left corner
 					if ((temp.row < prev.row && temp.col < prev.col) 
 							||(temp.row > prev.row && temp.col > prev.col))	{	// or upper right corner
+						
 						robot.rotateLeft();
 						
 						try {
@@ -146,15 +147,17 @@ public class Explore implements Behavior{
 					
 					// if in the same direction, no need to rotate
 					else	{
-						
+						// travel in the designated direction
+						robot.travel(cellD);
 						try {
 							Thread.yield();
 							Thread.sleep(1000); // stops for a short time (one second)
 						}
 						
 						catch(InterruptedException ie) {}
-						// travel in the designated direction
-						robot.travel(cellD);
+						
+						// not sure about this line
+						robot.stop();
 					}
 				
 				}
@@ -162,13 +165,13 @@ public class Explore implements Behavior{
 				curr = temp;
 			}
 		}
-		
-		try {
-			Thread.yield();
-			Thread.sleep(1000); // stops for a short time (one second)
-		}
-		
-		catch(InterruptedException ie) {}
+//		
+//		try {
+//			Thread.yield();
+//			Thread.sleep(1000); // stops for a short time (one second)
+//		}
+//		
+//		catch(InterruptedException ie) {}
 		
 		// if it is a starting cell
 		if (curr.row == world.start.row && curr.col == world.start.col)	{
@@ -282,6 +285,10 @@ public class Explore implements Behavior{
 			}
 			
 			catch(InterruptedException ie) {}
+			
+			
+			// don't know
+			robot.stop();
 		}
 		
 		world.setVisited(curr);		// sync with the maze in the world
@@ -294,22 +301,22 @@ public class Explore implements Behavior{
 		int counter = 0;
 		
 		// up
-		if (!maze[cell.row+1][cell.col].isObstacle() && !maze[cell.row+1][cell.col].isDeadEnd())	{
+		if (!maze[cell.row+1][cell.col].isObstacle() && !maze[cell.row+1][cell.col].isDeadEnd() && !maze[cell.row+1][cell.col].visited)	{
 			toCheck.add(0,maze[cell.row+1][cell.col]);
 			counter ++;
 		}
 		// down
-		if (!maze[cell.row-1][cell.col].isObstacle() && !maze[cell.row-1][cell.col].isDeadEnd())	{
+		if (!maze[cell.row-1][cell.col].isObstacle() && !maze[cell.row-1][cell.col].isDeadEnd() && !maze[cell.row-1][cell.col].visited)	{
 			toCheck.add(0,maze[cell.row-1][cell.col]);
 			counter ++;
 		}
 		// left
-		if (!maze[cell.row][cell.col-1].isObstacle() && !maze[cell.row][cell.col-1].isDeadEnd())	{
+		if (!maze[cell.row][cell.col-1].isObstacle() && !maze[cell.row][cell.col-1].isDeadEnd() && !maze[cell.row][cell.col-1].visited)	{
 			toCheck.add(0,maze[cell.row][cell.col-1]);
 			counter ++;
 		}
 		// right
-		if (!maze[cell.row][cell.col+1].isObstacle() && !maze[cell.row][cell.col+1].isDeadEnd())	{
+		if (!maze[cell.row][cell.col+1].isObstacle() && !maze[cell.row][cell.col+1].isDeadEnd() && !maze[cell.row][cell.col+1].visited)	{
 			toCheck.add(0,maze[cell.row][cell.col+1]);
 			counter ++;	
 		}
@@ -318,6 +325,7 @@ public class Explore implements Behavior{
 		if(counter == 0)
 			cell.setDeadEnd();
 	}
+	
 	
 	@Override
 	public void suppress() {

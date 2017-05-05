@@ -3,6 +3,7 @@ import lejos.nxt.Motor;
 import lejos.nxt.NXTRegulatedMotor;
 import lejos.nxt.SensorPort;
 import lejos.nxt.TouchSensor;
+import lejos.nxt.UltrasonicSensor;
 import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.subsumption.Arbitrator;
 import lejos.robotics.subsumption.Behavior;
@@ -24,6 +25,7 @@ public class Robot {
 	// creates a touch sensor object and a light sensor object, and attach them to the relative port
 	protected static TouchSensor frontBump = new TouchSensor(SensorPort.S2);	// touch sensor in the front
 	protected static LightSensor light = new LightSensor(SensorPort.S3);
+	protected static UltrasonicSensor usonic = new UltrasonicSensor(SensorPort.S4);
 
 	
 	/**
@@ -41,7 +43,7 @@ public class Robot {
     	
     	robot.setTravelSpeed(TRAVEL_DIST);
     	Behavior explore = new Explore(robot, maze);     
-    	Behavior avoid = new Avoid(robot, frontBump, (Explore) explore);	// should also take explore as parameters
+    	Behavior avoid = new Avoid(robot, frontBump, usonic, (Explore) explore);	// should also take explore as parameters
         Behavior reachGoal = new ReachGoal(robot, light, (Explore) explore);		// should also take explore as parameters
         
         // array of behaviors will be passed to arbitrator

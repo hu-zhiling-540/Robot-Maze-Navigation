@@ -9,19 +9,16 @@ import lejos.nxt.*;
 
 /**
  * the Avoid class implements Behavior, 
- * and deals with obstacle avoidance 
- * @author Guest
+ * and deals with obstacle avoidance
  *
  */
-public class Avoid implements Behavior, FeatureListener{
+public class Avoid implements Behavior{
 	
 	public DifferentialPilot robot;
 
 	public TouchSensor frontBump;// an instance of a touch sensor
 	public UltrasonicSensor usonic;  // an instance of an ultrasonic sensor
-	public int MAX_DISTANCE = 50; // in centimeters
-	public int PERIOD = 500; // in milliseconds
-	public FeatureDetector fd;  
+	public int MAX_DISTANCE = 50; // in centimeters  
 	
 	public boolean frontPressed;
 	
@@ -36,39 +33,29 @@ public class Avoid implements Behavior, FeatureListener{
 	 * @param robot
 	 * @param frontBump
 	 */
-	public Avoid(DifferentialPilot robot, TouchSensor frontBump, Explore explore) {
+	public Avoid(DifferentialPilot robot, TouchSensor frontBump, UltrasonicSensor usonic, Explore explore) {
+		
 		
 		this.robot = robot;
 		this.frontBump = frontBump;
+		this.usonic = usonic; 
 		frontPressed = false;
 		//System.out.println("Avoid");
 		this.explore = explore;
 	}
-//	
-//	public Avoid(DifferentialPilot robot, UltrasonicSensor usonic) {
-//		
-//		this.robot = robot;
-//		this.usonic = usonic;
-//		//ObjectDetect listener = new ObjectDetect(); 
-//		fd = new RangeFeatureDetector(usonic, MAX_DISTANCE, PERIOD); 
-//		//System.out.println("Avoid");
-//	}
-	
-	// perform a scan and retrieve data
-	public void getDetectorData() { 
-		Feature result = fd.scan(); 
-		if(result != null) { 
-			System.out.println("Range: " + result.getRangeReading().getRange()); ;
-		}
-	}	
+
 	
 	@Override
-	public boolean takeControl() { return frontBump.isPressed(); } 
+	public boolean takeControl() { 
+		return frontBump.isPressed() || usonic.getDistance() > MAX_DISTANCE;
+	}
+	
 	
 	@Override
 	public void action() {
 		
-//		explore.curr.setVisited();
+		explore.world.setVisited(explore.curr);
+		explore.toCheck.remove(explore.curr);
 		
 		try {
 			Thread.yield();
@@ -91,11 +78,5 @@ public class Avoid implements Behavior, FeatureListener{
 		robot.stop(); 
 	}
 	
-	@Override
-	// featureLister code will be notified when an object is detected
-	public void featureDetected(Feature feature, FeatureDetector detector) {
-		int range = (int) feature.getRangeReading().getRange(); 
-		Sound.playTone(1200-(range *10), 100);
-		System.out.println("Range: " + range);	
-	}
+	
 }

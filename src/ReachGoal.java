@@ -31,8 +31,9 @@ public class ReachGoal implements Behavior{
 	
 	@Override
 	public boolean takeControl() {
-		if(light.readValue() >= 45 || light.getFloodlight() == Color.WHITE ){ 
-			System.out.println("Goal");
+//		 light.getFloodlight() == Color.WHITE
+		if(light.readValue() >= 45 ){ 
+			System.out.println("WHITE!");
 			return true;
 		}
 		return false;

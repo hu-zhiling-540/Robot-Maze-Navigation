@@ -14,14 +14,14 @@ public class Avoid implements Behavior{
 
 	public TouchSensor frontBump;		// an instance of a touch sensor
 	public UltrasonicSensor usonic; 	// an instance of an ultrasonic sensor
-	public int MAX_DISTANCE = 25; 		// in centimeters  
+	public int MAX_DISTANCE = 23; 		// in centimeters  
 	
 	
 	public boolean frontPressed;
 	
 	public Explore explore;
 	
-	public static final int cellD = 30;
+	public static final double cellD = 23;
 	
 	
 	/**
@@ -50,37 +50,26 @@ public class Avoid implements Behavior{
 	@Override
 	public void action() {
 		
+		explore.toCheck.remove(explore.curr);
 		explore.world.setVisited(explore.curr);
 		explore.world.setObstacle(explore.curr);
-		explore.toCheck.remove(explore.curr);
 		System.out.println("obstacle detected: " + explore.curr.row + ", " + explore.curr.col);
 		
-		// not sure about this line
-		robot.stop();
-		
+//		robot.stop();
 		try {
 			Thread.yield();
 			Thread.sleep(1000); // stops for a short time (one second)
 		}
 		catch(InterruptedException ie) {}
-
+		
 		// travels backwards by a cell
 		robot.travel(-cellD,true); 
-//		
-//		int random = (int) Math.random() * 10;	// creates a random integer either even or odd
-//		if(random % 2 == 0)
-//			robot.rotate(90);
-//		else
-//			robot.rotate(-90);	
 		
 		try {
 			Thread.yield();
 			Thread.sleep(1000); // stops for a short time (one second)
 		}
 		catch(InterruptedException ie) {}
-		
-		// not sure about this line
-		robot.stop(); 
 	}
 	
 	@Override

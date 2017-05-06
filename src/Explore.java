@@ -19,7 +19,7 @@ public class Explore implements Behavior{
 	
 	public ArrayList<Cell> toCheck;
 	public ArrayList<Cell> path;
-	public static final int cellD = 30;
+	public static final double cellD = 23;
 	
 	public boolean reachGoal = false;
 	
@@ -38,8 +38,9 @@ public class Explore implements Behavior{
 		
 		maze = world.world;		// the grid
 		
-		curr = world.start;
+		
 		prev = world.start;
+		curr = prev;
 		
 	}
 	
@@ -155,30 +156,20 @@ public class Explore implements Behavior{
 						}
 						
 						catch(InterruptedException ie) {}
-						
-						// not sure about this line
-						robot.stop();
 					}
-				
 				}
 				prev = curr;
 				curr = temp;
 			}
 		}
-//		
-//		try {
-//			Thread.yield();
-//			Thread.sleep(1000); // stops for a short time (one second)
-//		}
-//		
-//		catch(InterruptedException ie) {}
+		
+		
+		
 		
 		// if it is a starting cell
-		if (curr.row == world.start.row && curr.col == world.start.col)	{
+		if (curr.row == world.start.row && curr.col == world.start.col)
 			world.setVisited(curr);
-			path.add(maze[curr.row][curr.col]);
-//			checkAround(curr);
-		}
+		
 		else	{
 //			// when we reach to this cell, we must have come from its adjacent cell
 //			// thus a path has been explored
@@ -194,11 +185,12 @@ public class Explore implements Behavior{
 				toCheck.remove(curr);
 				prev.removeAPath();		// a path has been found as a dead end
 				curr = prev;	// backtracking
+				
 			}
-			
-			// has more than one path remaining && not in a path
-			if(curr.cellVal > 1 && !path.contains(curr))
-				path.add(curr);
+//			
+//			// has more than one path remaining && not in a path
+//			if(curr.cellVal > 1 && !path.contains(curr))
+//				path.add(curr);
 		}
 		
 		// for next step
@@ -217,11 +209,16 @@ public class Explore implements Behavior{
 //			robot.rotate(180);
 //			robot.travel(cellD);
 		}
+		
 		// other cells
 		else	{
 			
+//			if (prev.row == curr.row && prev.col == curr.col)	{
+//				if (temp.row > curr.row && temp.col == curr.col)
+//			}
 			// if prev and curr are in the same row
 			if (prev.row == curr.row)		{
+				
 				// temp is in the lower left corner
 				if ((temp.row < prev.row && temp.col < prev.col) 
 						||(temp.row > prev.row && temp.col > prev.col))	{	// or upper right corner
@@ -234,7 +231,7 @@ public class Explore implements Behavior{
 					catch(InterruptedException ie) {}
 				}
 				
-				// if not in the same direction
+				// if prev, curr, temp are not in the same row, we can go right
 				else if (curr.row != temp.row)	{
 					robot.rotateRight();
 					try {
@@ -245,25 +242,23 @@ public class Explore implements Behavior{
 					catch(InterruptedException ie) {}
 				}
 				
-				// if in the same direction, no need to rotate
+				// if prev, curr, temp are in the same row, no need to rotate
+				
+				// travel in the designated direction
+				robot.travel(cellD);
+				try {
+					Thread.yield();
+					Thread.sleep(1000); // stops for a short time (one second)
+				}
+				
+				catch(InterruptedException ie) {}
 			}
 			
 			// if prev and curr are in the same col
 			else		{
-				// temp is in the lower right corner
+				// temp is in the upper right corner
 				if ((temp.row > prev.row && temp.col > prev.col) 
-						||(temp.row < prev.row && temp.col < prev.col))		{	// or upper left corner
-					robot.rotateLeft();
-					try {
-						Thread.yield();
-						Thread.sleep(1000); // stops for a short time (one second)
-					}
-					
-					catch(InterruptedException ie) {}
-				}
-				
-				// if not in the same direction
-				else if (curr.col != temp.col)	{
+						||(temp.row < prev.row && temp.col < prev.col))		{	// or lower left corner
 					robot.rotateRight();
 					try {
 						Thread.yield();
@@ -273,27 +268,34 @@ public class Explore implements Behavior{
 					catch(InterruptedException ie) {}
 				}
 				
-				// if in the same direction, no need to rotate
-
+				// if prev, curr, temp are not in the same col, we can go left
+				else if (curr.col != temp.col)	{
+					robot.rotateLeft();
+					try {
+						Thread.yield();
+						Thread.sleep(1000); // stops for a short time (one second)
+					}
+					
+					catch(InterruptedException ie) {}
+				}
+				// if prev, curr, temp are in the same col, no need to rotate
+				
+				// travel in the designated direction
+				robot.travel(cellD);
+				try {
+					Thread.yield();
+					Thread.sleep(1000); // stops for a short time (one second)
+				}
+				
+				catch(InterruptedException ie) {}
+				
 			}
-			
-			// travel in the designated direction
-			robot.travel(cellD);
-			try {
-				Thread.yield();
-				Thread.sleep(1000); // stops for a short time (one second)
-			}
-			
-			catch(InterruptedException ie) {}
-			
-			
-			// don't know
-			robot.stop();
 		}
 		
 		world.setVisited(curr);		// sync with the maze in the world
 		prev = curr;
 		curr = temp;
+		System.out.println("Moving next!!!!!!");
 	}
 	
 	
@@ -304,20 +306,24 @@ public class Explore implements Behavior{
 		if (!maze[cell.row+1][cell.col].isObstacle() && !maze[cell.row+1][cell.col].isDeadEnd() && !maze[cell.row+1][cell.col].visited)	{
 			toCheck.add(0,maze[cell.row+1][cell.col]);
 			counter ++;
+			System.out.println("check up");
 		}
 		// down
 		if (!maze[cell.row-1][cell.col].isObstacle() && !maze[cell.row-1][cell.col].isDeadEnd() && !maze[cell.row-1][cell.col].visited)	{
 			toCheck.add(0,maze[cell.row-1][cell.col]);
+			System.out.println("check down");
 			counter ++;
 		}
 		// left
 		if (!maze[cell.row][cell.col-1].isObstacle() && !maze[cell.row][cell.col-1].isDeadEnd() && !maze[cell.row][cell.col-1].visited)	{
 			toCheck.add(0,maze[cell.row][cell.col-1]);
+			System.out.println("check left");
 			counter ++;
 		}
 		// right
 		if (!maze[cell.row][cell.col+1].isObstacle() && !maze[cell.row][cell.col+1].isDeadEnd() && !maze[cell.row][cell.col+1].visited)	{
 			toCheck.add(0,maze[cell.row][cell.col+1]);
+			System.out.println("check right");
 			counter ++;	
 		}
 		

@@ -17,7 +17,7 @@ import lejos.robotics.subsumption.Behavior;
  */
 public class Robot {
 	
-	protected static final int TRAVEL_DIST = 20;
+	protected static final int TRAVEL_DIST = 23;
 	
 	protected static NXTRegulatedMotor leftMotor = Motor.C;
 	protected static NXTRegulatedMotor rightMotor = Motor.A;
@@ -38,7 +38,6 @@ public class Robot {
     	int[] goal = {5,8};
     	
     	World maze = new World(7, 10, start, goal);
-//    	maze.printWorld();
     	
     	DifferentialPilot robot = new DifferentialPilot(5.6f, 11.0f, Motor.A, Motor.C, true);   
     	

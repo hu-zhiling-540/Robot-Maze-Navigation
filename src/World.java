@@ -177,60 +177,35 @@ public class World {
 		return false;
 	}
 	
-	
-	/**
-	 * A method that reads in two sets of x and y coordinates:
-	 * the first set of coordinates is the lower-left corner of the obstacle, 
-	 * and the second set is the upper-right corner of the obstacle.
-	 * @param x1
-	 * @param y1
-	 * @param x2
-	 * @param y2
-	 */
-	public void buildObstacle(int x1, int y1, int x2, int y2)	{
-		
-		System.out.println("Building an obstacle.");
-		int max_x = Math.max(x1, x2);
-		int min_x = Math.min(x1, x2);
-		int max_y = Math.max(y1, y2);
-		int min_y = Math.min(y1, y2);
-				
-		for (int i = min_x; i <= max_x; i++)	{
-			for (int j = min_y; j <= max_y; j++)	{
-				world[i][j].setValue(-1);
-			}
-		}
-	}
-	
-	
-	/**
-	 * Prints the world and the value each cell holds
-	 */
-	public void printWorld()	{
-		String s = "";
-		for (int i = 0; i < world.length; i ++)	{
-			for (int j = 0; j < world[0].length; j ++)	{
-				s += world[i][j].cellVal + "\t";
-			}
-			s += "\n";
-		}
-		System.out.println(s);
-	}
-	
-	
-	/**
-	 * Prints the world and the value each cell holds
-	 */
-	public void printWorld(Cell[][] arr)	{
-		String s = "";
-		for (int i = 0; i < arr.length; i ++)	{
-			for (int j = 0; j < arr[0].length; j ++)	{
-				s += arr[i][j].cellVal + "\t";
-			}
-			s += "\n";
-		}
-		System.out.println(s);
-	}
+//	
+//	/**
+//	 * Prints the world and the value each cell holds
+//	 */
+//	public void printWorld()	{
+//		String s = "";
+//		for (int i = 0; i < world.length; i ++)	{
+//			for (int j = 0; j < world[0].length; j ++)	{
+//				s += world[i][j].cellVal + "\t";
+//			}
+//			s += "\n";
+//		}
+//		System.out.println(s);
+//	}
+//	
+//	
+//	/**
+//	 * Prints the world and the value each cell holds
+//	 */
+//	public void printWorld(Cell[][] arr)	{
+//		String s = "";
+//		for (int i = 0; i < arr.length; i ++)	{
+//			for (int j = 0; j < arr[0].length; j ++)	{
+//				s += arr[i][j].cellVal + "\t";
+//			}
+//			s += "\n";
+//		}
+//		System.out.println(s);
+//	}
 	
 	
 	

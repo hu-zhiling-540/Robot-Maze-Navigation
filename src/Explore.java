@@ -4,8 +4,8 @@ import lejos.robotics.navigation.DifferentialPilot;
 import lejos.robotics.subsumption.*; 
 
 /**
- * the Wander class implements Behavior, 
- * and travels around and rotates randomly 
+ * the Explores class implements Behavior, 
+ * and travels around and detects obstacle
  *
  */
 public class Explore implements Behavior{
@@ -161,6 +161,9 @@ public class Explore implements Behavior{
 				prev = curr;
 				curr = temp;
 			}
+			
+			
+			System.exit(0);
 		}
 		
 		

@@ -55,7 +55,7 @@ public class Avoid implements Behavior{
 		explore.world.setObstacle(explore.curr);
 		System.out.println("obstacle detected: " + explore.curr.row + ", " + explore.curr.col);
 		
-//		robot.stop();
+		robot.stop();
 		try {
 			Thread.yield();
 			Thread.sleep(1000); // stops for a short time (one second)

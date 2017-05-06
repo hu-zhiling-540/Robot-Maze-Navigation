@@ -1,4 +1,8 @@
-
+/**
+ * Holds the instances for cell value, 
+ * and coordinates for its location in the maze.
+ * It will be used to populate the maze in World.
+ */
 public class Cell {
 	
 //	0 => node is unvisited or unreachable;
@@ -17,17 +21,6 @@ public class Cell {
 	public int row;
 	public int col;
 	public boolean visited;
-//	public int ManhattanD;
-	
-//	/**
-//	 * Default Constructor
-//	 */
-//	public Cell()	{
-//		pos[0] = -1;
-//		pos[1] = -1;
-//		cellVal = 0;	// unvisited or unreachable
-//		visited = false;
-//	}
 	
 	/**
 	 * A constructor that takes in x, y coordinates
@@ -41,20 +34,6 @@ public class Cell {
 		visited = false;
 	}
 	
-//	
-//	/**
-//	 * A constructor that takes in x, y coordinates, and cell value
-//	 * @param row
-//	 * @param col
-//	 * @param cellVal
-//	 */
-//	public Cell(int row, int col, int cellVal)	{
-//		pos[0] = row;
-//		pos[1] = col;
-//		this.cellVal = cellVal;
-//		visited = false;
-//	}
-//	
 	
 	/**
 	 * Assigns a value to the cell
@@ -64,13 +43,17 @@ public class Cell {
 		this.cellVal = cellVal;
 	}
 	
+	
+	/**
+	 * Sets the cell to be visited
+	 */
 	public void setVisited()	{
 		visited = true;
 	}
 	
 	
 	/**
-	 * Cut off one path
+	 * Cuts off one path
 	 */
 	public void removeAPath()	{
 		if (cellVal >= 1 )

@@ -8,7 +8,7 @@ import lejos.robotics.subsumption.*;
  * and travels around and detects obstacle
  *
  */
-public class Explore implements Behavior{
+public class Explore implements Behavior {
 
 	public DifferentialPilot robot;
 	public World world;
@@ -22,6 +22,7 @@ public class Explore implements Behavior{
 	public static final double cellD = 23;
 	
 	public boolean reachGoal = false;
+	private boolean suppressed = false;
 	
 	
 	/**
@@ -51,123 +52,29 @@ public class Explore implements Behavior{
 
 	@Override
 	public void action() {
-
+		
+		suppressed = false;		// set the flag to false
+		
 		// if goal is reached
 		if (reachGoal)	{
 			System.out.println("Reach GOAL!!!!");
 			// if never visited or a real obstacle, mark the cell as obstacle
 			// set start point
 			
-			// create a path using DFS algorith
-			world.createAPath();
-			
-			// reverse the path
-			path = world.reverse();
-			
-			prev = path.get(0);
-			curr = path.remove(0);		// goal cell
-			
-			// walk the robot back to the starting cell
-			
-			Cell temp = path.remove(0);		// next step to be taken
-			
-			while (!path.isEmpty())	{
-				
-				// if prev and curr are in the same row
-				if (prev.row == curr.row)		{
-					// temp is in the lower left corner
-					if ((temp.row < prev.row && temp.col < prev.col) 
-							||(temp.row > prev.row && temp.col > prev.col))	{	// or upper right corner
-						
-						robot.rotateLeft();
-						
-						try {
-							Thread.yield();
-							Thread.sleep(1000); // stops for a short time (one second)
-						}
-						
-						catch(InterruptedException ie) {}
-						
-						robot.travel(cellD, true);
-						System.out.println("yes");
-					}
-					
-					// if not in the same direction
-					else if (curr.row != temp.row)	{
-						robot.rotateRight();
-						
-						try {
-							Thread.yield();
-							Thread.sleep(1000); // stops for a short time (one second)
-						}
-						
-						catch(InterruptedException ie) {}
-						robot.travel(cellD);
-					}
-					
-					// if in the same direction, no need to rotate
-					else	{
-					
-						try {
-							Thread.yield();
-							Thread.sleep(1000); // stops for a short time (one second)
-						}
-						
-						catch(InterruptedException ie) {}
-						// travel in the designated direction
-						robot.travel(cellD);
-					}
-				}
-				
-				// if prev and curr are in the same col
-				else		{
-					// temp is in the lower right corner
-					if ((temp.row > prev.row && temp.col > prev.col) 
-							||(temp.row < prev.row && temp.col < prev.col))		{	// or upper left corner
-						robot.rotateLeft();
-						try {
-							Thread.yield();
-							Thread.sleep(1000); // stops for a short time (one second)
-						}
-						
-						catch(InterruptedException ie) {}
-						robot.travel(cellD);
-					}
-					
-					// if not in the same direction
-					else if (curr.col != temp.col)	{
-						robot.rotateRight();
-						try {
-							Thread.yield();
-							Thread.sleep(1000); // stops for a short time (one second)
-						}
-						
-						catch(InterruptedException ie) {}
-						robot.travel(cellD);
-					}
-					
-					// if in the same direction, no need to rotate
-					else	{
-						// travel in the designated direction
-						robot.travel(cellD);
-						try {
-							Thread.yield();
-							Thread.sleep(1000); // stops for a short time (one second)
-						}
-						
-						catch(InterruptedException ie) {}
-					}
-				}
-				prev = curr;
-				curr = temp;
-			}
+//			// create a path using DFS algorith
+//			world.createAPath();
+//			
+//			// reverse the path
+//			path = world.reverse();
+//			
+//			prev = path.get(0);
+//			curr = path.remove(0);		// goal cell
+//			
+//			// walk the robot back to the starting cell
+//			
+//			Cell temp = path.remove(0);		// next step to be taken
 			
 			
-			System.exit(0);
-		}
-		
-		
-		
 		
 		// if it is a starting cell
 		if (curr.row == world.start.row && curr.col == world.start.col)
@@ -299,6 +206,7 @@ public class Explore implements Behavior{
 		prev = curr;
 		curr = temp;
 		System.out.println("Moving next!!!!!!");
+		}
 	}
 	
 	
@@ -338,7 +246,7 @@ public class Explore implements Behavior{
 	
 	@Override
 	public void suppress() {
-		robot.stop();	
+		suppressed = true;
 	}
 
 }

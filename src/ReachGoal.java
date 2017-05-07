@@ -62,7 +62,7 @@ public class ReachGoal implements Behavior{
 	@Override
 	public void action() {
 		
-		suppressed = false;		// set the flag to false
+//		suppressed = false;		// set the flag to false
 		try {
 			Thread.yield();
 			Thread.sleep(1000); // stops for a short time (one second)
@@ -80,7 +80,15 @@ public class ReachGoal implements Behavior{
 		// rotate to face back
 		robot.rotate(180);
 		
+		walkBack();
 		
+		System.out.println("Moving next!!!!!!");
+		
+		System.exit(0);
+	}
+	
+	public void walkBack()	{
+
 		// create a path using DFS algorith
 		world.createAPath();
 		
@@ -172,9 +180,7 @@ public class ReachGoal implements Behavior{
 		}
 		prev = curr;
 		curr = next;
-		System.out.println("Moving next!!!!!!");
 	}
-
 	/**
 	 *Will play the tone stored in the note array
 	 *	 

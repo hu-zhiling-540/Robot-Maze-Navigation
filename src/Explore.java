@@ -18,10 +18,10 @@ public class Explore implements Behavior {
 	public Cell curr;
 	
 	public ArrayList<Cell> toCheck;
-	public ArrayList<Cell> path;
+//	public ArrayList<Cell> path;
 	public static final double cellD = 23;
 	
-	public boolean reachGoal = false;
+//	public boolean reachGoal = false;
 	private boolean suppressed = false;
 	
 	
@@ -32,13 +32,12 @@ public class Explore implements Behavior {
 	public Explore(DifferentialPilot robot, World world)	{
 		
 		toCheck = new ArrayList<Cell>();	// works as a stack for cells that to be checked next
-		path = new ArrayList<Cell>();		// records the path of walking through the maze
+//		path = new ArrayList<Cell>();		// records the path of walking through the maze
 		
 		this.robot = robot;
 		this.world = world;		// the world class 
 		
 		maze = world.world;		// the grid
-		
 		
 		prev = world.start;
 		curr = prev;
@@ -55,52 +54,17 @@ public class Explore implements Behavior {
 		
 		suppressed = false;		// set the flag to false
 		
-		// if goal is reached
-		if (reachGoal)	{
-			System.out.println("Reach GOAL!!!!");
-			// if never visited or a real obstacle, mark the cell as obstacle
-			// set start point
-			
-//			// create a path using DFS algorith
-//			world.createAPath();
-//			
-//			// reverse the path
-//			path = world.reverse();
-//			
-//			prev = path.get(0);
-//			curr = path.remove(0);		// goal cell
-//			
-//			// walk the robot back to the starting cell
-//			
-//			Cell temp = path.remove(0);		// next step to be taken
-			
-			
+		/* First, Check current cell */
 		
 		// if it is a starting cell
 		if (curr.row == world.start.row && curr.col == world.start.col)
 			world.setVisited(curr);
 		
-		else	{
-//			// when we reach to this cell, we must have come from its adjacent cell
-//			// thus a path has been explored
-//			curr.removeAPath();
-			
-			// check about the current cell
-			// at least one path hasn't been tried on curr cell (i.e not a dead end) 
-//			if (curr.cellVal > 1)
-//				toCheck.add(0, prev);	// put previous cell back 
-			
-			// once identified as an obstacle (cell value = -1)
-			if (curr.isObstacle())	{
-				toCheck.remove(curr);
-				prev.removeAPath();		// a path has been found as a dead end
-				curr = prev;	// backtracking
-				
-			}
-//			
-//			// has more than one path remaining && not in a path
-//			if(curr.cellVal > 1 && !path.contains(curr))
-//				path.add(curr);
+		// if it is identified as an obstacle (cell value = -1)
+		if (curr.isObstacle())		{
+			toCheck.remove(curr);
+			prev.removeAPath();		// a path has been found as a dead end
+			curr = prev;	// backtracking
 		}
 		
 		// for next step
@@ -206,7 +170,7 @@ public class Explore implements Behavior {
 		prev = curr;
 		curr = temp;
 		System.out.println("Moving next!!!!!!");
-		}
+		
 	}
 	
 	

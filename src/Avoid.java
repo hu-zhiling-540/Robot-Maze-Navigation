@@ -13,14 +13,12 @@ public class Avoid implements Behavior{
 	
 	public DifferentialPilot robot;
 
-	public TouchSensor frontBump;		// an instance of a touch sensor
-	public UltrasonicSensor usonic; 	// an instance of an ultrasonic sensor
-	public int MAX_DISTANCE = 23; 		// in centimeters  
-	
+	private TouchSensor frontBump;		// an instance of a touch sensor
+	private UltrasonicSensor usonic; 	// an instance of an ultrasonic sensor
+	private int MAX_DISTANCE = 23; 		// in centimeters  
+	private static final double cellD = 23;
 	private boolean suppressed = false;
-//	public Explore explore;
-	
-	public static final double cellD = 23;
+	private Explore explore;
 	
 	
 	/**
@@ -29,14 +27,14 @@ public class Avoid implements Behavior{
 	 * @param robot
 	 * @param frontBump
 	 */
-	public Avoid(DifferentialPilot robot, TouchSensor frontBump, UltrasonicSensor usonic) {
+	public Avoid(DifferentialPilot robot, TouchSensor frontBump, UltrasonicSensor usonic, Explore explore) {
 		
 		this.robot = robot;
 		this.frontBump = frontBump;
 		this.usonic = usonic; 
 		
 		System.out.println("Avoid");
-//		this.explore = explore;
+		this.explore = explore;
 	}
 
 	
@@ -49,10 +47,10 @@ public class Avoid implements Behavior{
 	@Override
 	public void action() {
 		
-//		explore.toCheck.remove(explore.curr);
-//		explore.world.setVisited(explore.curr);
-//		explore.world.setObstacle(explore.curr);
-//		System.out.println("obstacle detected: " + explore.curr.row + ", " + explore.curr.col);
+		explore.toCheck.remove(explore.curr);
+		explore.world.setVisited(explore.curr);
+		explore.world.setObstacle(explore.curr);
+		System.out.println("obstacle detected: " + explore.curr.row + ", " + explore.curr.col);
 //		
 		suppressed = false;		// set the flag to false
 		

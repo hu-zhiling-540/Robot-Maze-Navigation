@@ -5,7 +5,8 @@ import lejos.nxt.*;
 
 /**
  * the Avoid class implements Behavior, 
- * and deals with obstacle avoidance
+ * It will let robot reverse and turn 
+ * when the robot strikes an object or detects one close by
  *
  */
 public class Avoid implements Behavior{
@@ -16,10 +17,8 @@ public class Avoid implements Behavior{
 	public UltrasonicSensor usonic; 	// an instance of an ultrasonic sensor
 	public int MAX_DISTANCE = 23; 		// in centimeters  
 	
-	
-	public boolean frontPressed;
-	
-	public Explore explore;
+	private boolean suppressed = false;
+//	public Explore explore;
 	
 	public static final double cellD = 23;
 	
@@ -30,14 +29,14 @@ public class Avoid implements Behavior{
 	 * @param robot
 	 * @param frontBump
 	 */
-	public Avoid(DifferentialPilot robot, TouchSensor frontBump, UltrasonicSensor usonic, Explore explore) {
+	public Avoid(DifferentialPilot robot, TouchSensor frontBump, UltrasonicSensor usonic) {
 		
 		this.robot = robot;
 		this.frontBump = frontBump;
 		this.usonic = usonic; 
-		frontPressed = false;
+		
 		System.out.println("Avoid");
-		this.explore = explore;
+//		this.explore = explore;
 	}
 
 	
@@ -50,12 +49,13 @@ public class Avoid implements Behavior{
 	@Override
 	public void action() {
 		
-		explore.toCheck.remove(explore.curr);
-		explore.world.setVisited(explore.curr);
-		explore.world.setObstacle(explore.curr);
-		System.out.println("obstacle detected: " + explore.curr.row + ", " + explore.curr.col);
+//		explore.toCheck.remove(explore.curr);
+//		explore.world.setVisited(explore.curr);
+//		explore.world.setObstacle(explore.curr);
+//		System.out.println("obstacle detected: " + explore.curr.row + ", " + explore.curr.col);
+//		
+		suppressed = false;		// set the flag to false
 		
-		robot.stop();
 		try {
 			Thread.yield();
 			Thread.sleep(1000); // stops for a short time (one second)
@@ -66,15 +66,17 @@ public class Avoid implements Behavior{
 		robot.travel(-cellD,true); 
 		
 		try {
-			Thread.yield();
+			Thread.yield();		// wait till turn is complete
 			Thread.sleep(1000); // stops for a short time (one second)
 		}
 		catch(InterruptedException ie) {}
 	}
 	
 	@Override
-	public void suppress() { 
-		robot.stop(); 
+	public void suppress() {
+		// will stop this action when it is called:
+		suppressed = true;
+//		robot.stop(); 
 	}
 	
 	

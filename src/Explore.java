@@ -207,7 +207,9 @@ public class Explore implements Behavior {
 			cell.setDeadEnd();
 	}
 	
-	
+	public World getWorld(){
+		return this.world;
+	}
 	@Override
 	public void suppress() {
 		suppressed = true;

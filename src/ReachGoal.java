@@ -27,11 +27,6 @@ public class ReachGoal implements Behavior{
 	private static final short[] note = {2349,115, 0,5, 1760,165, 0,35};
 	
 //	public Boolean goalReached = false;
-
-	//	public Explore explore;
-	
-	
-	
 	private boolean suppressed = false;
 	
 	

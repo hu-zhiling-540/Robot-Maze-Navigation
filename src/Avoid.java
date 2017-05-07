@@ -18,7 +18,9 @@ public class Avoid implements Behavior{
 	private int MAX_DISTANCE = 23; 		// in centimeters  
 	private static final double cellD = 23;
 	private boolean suppressed = false;
-	private Explore explore;
+	private World world;
+	private Cell curr;
+//	private Explore explore;
 	
 	
 	/**
@@ -27,14 +29,14 @@ public class Avoid implements Behavior{
 	 * @param robot
 	 * @param frontBump
 	 */
-	public Avoid(DifferentialPilot robot, TouchSensor frontBump, UltrasonicSensor usonic, Explore explore) {
+	public Avoid(DifferentialPilot robot, TouchSensor frontBump, UltrasonicSensor usonic, World world, Cell curr) {
 		
 		this.robot = robot;
 		this.frontBump = frontBump;
 		this.usonic = usonic; 
-		
+		this.world = world;
 		System.out.println("Avoid");
-		this.explore = explore;
+//		this.explore = explore;
 	}
 
 	
@@ -47,11 +49,12 @@ public class Avoid implements Behavior{
 	@Override
 	public void action() {
 		
-		explore.toCheck.remove(explore.curr);
-		explore.world.setVisited(explore.curr);
-		explore.world.setObstacle(explore.curr);
-		System.out.println("obstacle detected: " + explore.curr.row + ", " + explore.curr.col);
-//		
+//		explore.toCheck.remove(explore.curr);
+//		explore.world.setVisited(explore.curr);
+//		explore.world.setObstacle(explore.curr);
+		System.out.println("obstacle detected: " + curr.row + ", " + curr.col);
+		world.setObstacle(curr);
+		
 		suppressed = false;		// set the flag to false
 		
 		try {

@@ -25,7 +25,6 @@ public class World {
 		
 		this.start = world[start[0]][start[1]];		// set up starting cell's coordinates
 		this.goal = world[goal[0]][goal[1]];		// set up goal cell's coordinates
-		
 	}
 	
 	

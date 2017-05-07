@@ -37,15 +37,16 @@ public class Robot {
     	int[] start = {1,1};
     	int[] goal = {5,8};
     	
-    	World maze = new World(7, 10, start, goal);
+    	World world = new World(7, 10, start, goal);
     	
     	DifferentialPilot robot = new DifferentialPilot(5.6f, 11.0f, Motor.A, Motor.C, true);   
     	
     	robot.setTravelSpeed(10);
     	
-    	Behavior explore = new Explore(robot, maze);     
-    	Behavior avoid = new Avoid(robot, frontBump, usonic, (Explore) explore);	// should also take explore as parameters
-        Behavior reachGoal = new ReachGoal(robot, light, (Explore) explore);		// should also take explore as parameters
+    	Behavior explore = new Explore(robot, world);     			// default behavior
+    	Behavior avoid = new Avoid(robot, frontBump, usonic);		// based on inputs from the touch sensor and ultrasonic sensor
+    	// a third behavior which runs after the first two have been completed
+    	Behavior reachGoal = new ReachGoal(robot, light, world);	// based on inputs from the light sensor
         
         // array of behaviors will be passed to arbitrator
         Behavior [] bArr = {explore, avoid, reachGoal}; 

@@ -65,19 +65,19 @@ public class Avoid implements Behavior{
 		
 		// travels backwards by a cell
 		robot.travel(-cellD,true); 
-		
-		try {
-			Thread.yield();		// wait till turn is complete
-			Thread.sleep(1000); // stops for a short time (one second)
-		}
-		catch(InterruptedException ie) {}
+//		
+//		try {
+//			Thread.yield();		// wait till turn is complete
+//			Thread.sleep(1000); // stops for a short time (one second)
+//		}
+//		catch(InterruptedException ie) {}
 	}
 	
 	@Override
 	public void suppress() {
 		// will stop this action when it is called:
 		suppressed = true;
-		robot.stop(); 
+//		robot.stop(); 
 	}
 	
 	

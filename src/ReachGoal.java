@@ -94,7 +94,7 @@ public class ReachGoal implements Behavior{
 	
 	
 	/**
-	 * Rotates back to face the starting cell
+	 * Rotates back to face south
 	 */
 	public void rotateBack()	{
 		char o = world.getCurrOrient();
@@ -132,6 +132,28 @@ public class ReachGoal implements Behavior{
 		
 		Cell next = path.remove(0);		// next step to be taken
 		
+		if (next.row == curr.row)	{
+			robot.rotateRight();
+			try {
+				Thread.yield();
+				Thread.sleep(1000); // stops for a short time (one second)
+			}
+			catch(InterruptedException ie) {}
+		}
+		// else, in the same col, no need to change
+		// travel in the designated direction
+		robot.travel(cellD);
+		try {
+			Thread.yield();
+			Thread.sleep(1000); // stops for a short time (one second)
+		}
+		catch(InterruptedException ie) {}
+		
+		prev = curr;
+		curr = next;
+		next = path.remove(0);
+			
+		// looping through the path
 		while (!path.isEmpty())	{
 			
 			if (prev.row == curr.row)		{

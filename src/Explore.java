@@ -14,12 +14,7 @@ public class Explore implements Behavior {
 
 	public DifferentialPilot robot;
 	public World world;
-//	public Cell[][] maze;
 
-	public Cell prev;
-	public Cell curr;
-	
-	public ArrayList<Cell> toCheck;
 	public static final double cellD = 23;
 	
 	private boolean suppressed = false;
@@ -31,15 +26,8 @@ public class Explore implements Behavior {
 	 */
 	public Explore(DifferentialPilot robot, World world)	{
 		
-		toCheck = new ArrayList<Cell>();	// works as a stack for cells that to be checked next
-		
 		this.robot = robot;
 		this.world = world;		// the world class 
-		
-//		maze = world.world;		// the grid
-//		
-//		prev = world.start;
-		curr = prev;
 		
 	}
 	
@@ -59,15 +47,19 @@ public class Explore implements Behavior {
 		
 		int c = world.commandForExplore();
 		commandDecode(c);
+		
 		try {
 			Thread.yield();
 			Thread.sleep(1000); // stops for a short time (one second)
 		}
 		catch(InterruptedException ie) {}
-		
-		
 	}
 	
+	
+	/**
+	 * Decodes the command associated with rotation degree
+	 * @param c
+	 */
 	public void commandDecode(int c)	{
 		// current cell is a dead end, backtrack
 		if (c == 1)

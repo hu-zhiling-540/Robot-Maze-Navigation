@@ -58,15 +58,6 @@ public class World {
 	}
 	
 	/**
-	 * Returns the current cell
-	 * @return
-	 */
-	public Cell getCurrCell()	{
-		return maze[curr_row][curr_col];
-	}
-
-	
-	/**
 	 * Populates the grid with cells,
 	 * and marks cell value respectively
 	 */
@@ -113,78 +104,6 @@ public class World {
     			maze[i][j].setValue(4);
     		}
     	}
-	}
-	
-	
-	/**
-	 * Sets start state
-	 * @return 
-	 */
-	public void getDFSPath()	{
-		
-		newPath = new ArrayList<Cell>();
-		stack = new ArrayList<Cell>();
-		
-//		path.add(start);		// adds starting cell as the first step
-		stack.add(maze[start[0]][start[1]]);	// adds starting cell
-		
-		dfs();
-	}
-	
-	
-	/**
-	 * Reverses a path
-	 * @return
-	 */
-	public ArrayList<Cell> getReversePath()	{
-		ArrayList<Cell> back = new ArrayList<Cell>();
-		for (int i = newPath.size()-1; i >= 0; i--)
-			back.add(newPath.get(i));
-		return back;
-	}
-	
-	
-	/**
-	 * Depth First Search
-	 */
-	public void dfs()	{
-		
-		// pop the stack;
-		Cell temp = stack.remove(0);
-		
-		// if it is the goal
-		if (temp.row == goal[0] && temp.col == goal[1])	{
-			return;		// done!
-		}
-		
-		else {
-			
-			ArrayList<Cell> nbrs = new ArrayList<Cell>();
-			
-			// adjacent top cell
-			if (maze[temp.row+1][temp.col].visited && !maze[temp.row+1][temp.col].isObstacle())
-				nbrs.add(maze[temp.row+1][temp.col]);
-			
-			// adjacent bottom cell
-			if (maze[temp.row-1][temp.col].visited && !maze[temp.row-1][temp.col].isObstacle())
-				nbrs.add(maze[temp.row-1][temp.col]);
-			
-			// adjacent left cell
-			if (maze[temp.row][temp.col-1].visited && !maze[temp.row][temp.col-1].isObstacle())
-				nbrs.add(maze[temp.row][temp.col-1]);
-			
-			// adjacent right cell
-			if (maze[temp.row][temp.col+1].visited && !maze[temp.row][temp.col+1].isObstacle())	
-				nbrs.add(maze[temp.row][temp.col+1]);
-			
-			if (nbrs.size()>0)	{
-				Cell next = nbrs.get(0);
-				newPath.add(next);
-				stack.add(0, next);
-			}
-
-			dfs();		// recursive call
-		}
 	}
 	
 	
@@ -281,6 +200,14 @@ public class World {
 
 	
 	/**
+	 * Returns the current cell
+	 * @return
+	 */
+	public Cell getCurrCell()	{
+		return maze[curr_row][curr_col];
+	}
+
+	/**
 	 * Compares previous cell and current cell 
 	 * to get an orientation
 	 * @return
@@ -344,10 +271,6 @@ public class World {
 		return command;
 			
 	}
-//	
-//	public int commandForReachGoal()	{
-//		command = orientation(next);
-//	}
 	
 
 	/**
@@ -464,6 +387,75 @@ public class World {
 				return 0;
 		}
 			
+	}
+
+	/**
+		 * Sets start state
+		 * @return 
+		 */
+		public void getDFSPath()	{
+			
+			newPath = new ArrayList<Cell>();
+			stack = new ArrayList<Cell>();
+			
+	//		path.add(start);		// adds starting cell as the first step
+			stack.add(maze[start[0]][start[1]]);	// adds starting cell
+			
+			dfs();
+		}
+
+	/**
+	 * Reverses a path
+	 * @return
+	 */
+	public ArrayList<Cell> getReversePath()	{
+		ArrayList<Cell> back = new ArrayList<Cell>();
+		for (int i = newPath.size()-1; i >= 0; i--)
+			back.add(newPath.get(i));
+		return back;
+	}
+
+	/**
+	 * Depth First Search Algorithm
+	 */
+	public void dfs()	{
+		
+		// pop the stack;
+		Cell temp = stack.remove(0);
+		
+		// if it is the goal
+		if (temp.row == goal[0] && temp.col == goal[1])	{
+			return;		// done!
+		}
+		
+		else {
+			
+			ArrayList<Cell> nbrs = new ArrayList<Cell>();
+			
+			// adjacent top cell
+			if (maze[temp.row+1][temp.col].visited && !maze[temp.row+1][temp.col].isObstacle())
+				nbrs.add(maze[temp.row+1][temp.col]);
+			
+			// adjacent bottom cell
+			if (maze[temp.row-1][temp.col].visited && !maze[temp.row-1][temp.col].isObstacle())
+				nbrs.add(maze[temp.row-1][temp.col]);
+			
+			// adjacent left cell
+			if (maze[temp.row][temp.col-1].visited && !maze[temp.row][temp.col-1].isObstacle())
+				nbrs.add(maze[temp.row][temp.col-1]);
+			
+			// adjacent right cell
+			if (maze[temp.row][temp.col+1].visited && !maze[temp.row][temp.col+1].isObstacle())	
+				nbrs.add(maze[temp.row][temp.col+1]);
+			
+			if (nbrs.size()>0)	{
+				Cell next = nbrs.get(0);
+				newPath.add(next);
+				stack.add(0, next);
+			}
+	
+			dfs();		// recursive call
+		}
 	}
 	
 	

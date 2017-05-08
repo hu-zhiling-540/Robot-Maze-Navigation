@@ -46,8 +46,8 @@ public class ReachGoal implements Behavior{
 	public boolean takeControl() {
 		
 //		light.getFloodlight() == Color.WHITE
-		if(light.readValue() >= 45 ){ 
-			System.out.println("WHITE!");
+		if(light.readValue() >= 55 ){ 
+			System.out.println("Reach Goal!");
 			return true;
 		}
 		return false;
@@ -74,10 +74,23 @@ public class ReachGoal implements Behavior{
 		
 		// rotate to face back
 		robot.rotate(180);
+		System.out.println("rotate 180");
+		
+		try {
+			Thread.yield();
+			Thread.sleep(1000); // stops for a short time (one second)
+		}
+		catch(InterruptedException ie) {}
+		
 		
 		walkBack();
 		
-		System.out.println("Moving next!!!!!!");
+		try {
+			Thread.yield();
+			Thread.sleep(1000); // stops for a short time (one second)
+		}
+		catch(InterruptedException ie) {}
+		
 		
 		System.exit(0);
 	}

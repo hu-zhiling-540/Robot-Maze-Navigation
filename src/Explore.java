@@ -54,6 +54,13 @@ public class Explore implements Behavior {
 		
 		suppressed = false;		// set the flag to false
 		
+		try {
+			Thread.yield();
+			Thread.sleep(1000); // stops for a short time (one second)
+		}
+		catch(InterruptedException ie) {}
+		
+		
 		/* First, Check current cell */
 		
 		// if it is a starting cell
@@ -78,11 +85,8 @@ public class Explore implements Behavior {
 		Cell temp = toCheck.remove(0);		// next step to be taken
 		
 		// have the chance to walk back to the previous cell
-		if (temp.row == prev.row && temp.col == prev.col)	{
+		if (temp.row == prev.row && temp.col == prev.col)
 			prev = curr;	// override it to be the current cell
-//			robot.rotate(180);
-//			robot.travel(cellD);
-		}
 		
 		// other cells
 		else	{

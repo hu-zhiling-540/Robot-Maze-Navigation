@@ -23,7 +23,7 @@ public class ReachGoal implements Behavior{
 	private Cell[][] maze;
 	private ArrayList<Cell> path;
 	
-	private static final double cellD = 23;
+	private static final double cellD = -23;
 	private static final short[] note = {2349,115, 0,5, 1760,165, 0,35};
 	
 	private boolean suppressed = false;
@@ -52,7 +52,7 @@ public class ReachGoal implements Behavior{
 	public boolean takeControl() {
 		/*light.getFloodlight() == light.WHITE NOTSURE */
 		//if there is a significant value difference of light
-		if((light.readValue()-init_light_value) > 10 || light.getFloodlight() == light.WHITE ||
+		if((light.readValue()-init_light_value) > 20 || light.getFloodlight() == light.WHITE ||
 				light.getFloodlight() == Color.WHITE){ 		// or a white cell is detected
 			System.out.println("Reach Goal!");
 			return true;

@@ -17,7 +17,7 @@ public class Explore implements Behavior {
 
 	private static final double cellD = -23;
 	
-//	private boolean suppressed = false;
+	private boolean suppressed = false;
 	
 	
 	/**
@@ -43,7 +43,7 @@ public class Explore implements Behavior {
 	@Override
 	public void action() {
 		
-//		suppressed = false;		// set the flag to false
+		suppressed = false;		// set the flag to false
 		
 		int c = world.commandForExplore();
 		commandDecode(c);
@@ -120,8 +120,8 @@ public class Explore implements Behavior {
 			*/
 	@Override
 	public void suppress() {
-//		suppressed = true;
-		robot.stop();
+		suppressed = true;
+//		robot.stop();
 	}
 
 }

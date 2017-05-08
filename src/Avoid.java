@@ -15,7 +15,7 @@ public class Avoid implements Behavior{
 
 	private TouchSensor frontBump;		// an instance of a touch sensor
 	private UltrasonicSensor usonic; 	// an instance of an ultrasonic sensor
-	private int AVOID_DISTANCE = 28; 		// in centimeters  
+	private int AVOID_DISTANCE = 56; 		// in centimeters  
 	private static final double cellD = -23;
 	private boolean suppressed;
 	private World world;
@@ -54,7 +54,8 @@ public class Avoid implements Behavior{
 	public void action() {
 		
 		suppressed = false;		// set the flag to false
-		world.obstacleDected(); 
+		
+		world.obstacleDected();
 		
 		try {
 			Thread.yield();
@@ -62,8 +63,12 @@ public class Avoid implements Behavior{
 		}
 		catch(InterruptedException ie) {}
 		
-		/* NEW; Not Sure */
-//		robot.stop();
+//		while(!suppressed)
+//			Thread.yield();
+//		world.commandForExplore();
+		
+//		/* NEW; Not Sure */
+		robot.stop();
 	}
 	
 	@Override
@@ -72,7 +77,7 @@ public class Avoid implements Behavior{
 		suppressed = true;
 		
 		/* Not Sure Comment this one out */
-		robot.stop(); 
+//		robot.stop(); 
 	}
 	
 	

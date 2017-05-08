@@ -168,6 +168,7 @@ public class World {
 			break;
 		}
 		
+		
 	}
 
 	/**
@@ -275,6 +276,17 @@ public class World {
 			
 	}
 	
+//	public int commandForAvoid()	{
+//		// obstacle is detected and marked
+//		Cell next = nextCell();
+//
+//		if (next != null)	{
+//			command = orientation(next);
+//			path.add(next);		// takes in next cell
+//			updateCurrCell(next);
+//		}
+//	}
+	
 
 	/**
 	 * Finds the succeeding step to be taken
@@ -310,28 +322,28 @@ public class World {
 		int counter = 0;	// keeps track of number of emerging routes
 			
 		// up
-		if (isValidMove(curr_row+1, curr_col)){
-//		if (!maze[curr_row+1][curr_col].isObstacle() && !maze[curr_row+1][curr_col].isDeadEnd() && !maze[curr_row+1][curr_col].visited)	{
+		if (isValidMove(curr_row+1, curr_col) && !maze[curr_row+1][curr_col].visited){
+//		if (!maze[curr_row+1][curr_col].isObstacle() && !maze[curr_row+1][curr_col].isDeadEnd() && )	{
 			nbrs.add(0,maze[curr_row+1][curr_col]);
 			counter ++;
 			System.out.println("check up");
 		}
 		// down
-		if (isValidMove(curr_row-1, curr_col)){
+		if (isValidMove(curr_row-1, curr_col) && !maze[curr_row-1][curr_col].visited){
 //		if (!maze[curr_row-1][curr_col].isObstacle() && !maze[curr_row-1][curr_col].isDeadEnd() && !maze[curr_row-1][curr_col].visited)	{
 			nbrs.add(0,maze[curr_row-1][curr_col]);
 			System.out.println("check down");
 			counter ++;
 		}
 		// left
-		if (isValidMove(curr_row, curr_col-1)){
+		if (isValidMove(curr_row, curr_col-1) && !maze[curr_row][curr_col-1].visited){
 //		if (!maze[curr_row][curr_col-1].isObstacle() && !maze[curr_row][curr_col-1].isDeadEnd() && !maze[curr_row][curr_col-1].visited)	{
 			nbrs.add(0,maze[curr_row][curr_col-1]);
 			System.out.println("check left");
 			counter ++;
 		}
 		// right
-		if (isValidMove(curr_row, curr_col+1)){
+		if (isValidMove(curr_row, curr_col+1) && !maze[curr_row][curr_col+1].visited){
 //		if (!maze[curr_row][curr_col+1].isObstacle() && !maze[curr_row][curr_col+1].isDeadEnd() && !maze[curr_row][curr_col+1].visited)	{
 			nbrs.add(0,maze[curr_row][curr_col+1]);
 			System.out.println("check right");

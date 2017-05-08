@@ -20,7 +20,7 @@ public class Avoid implements Behavior{
 	private boolean suppressed = false;
 //	private World world;
 //	private Cell curr;
-//	private Explore explore;
+	private Explore explore;
 	
 	
 	/**
@@ -28,15 +28,18 @@ public class Avoid implements Behavior{
 	 * as well as the TouchSensor.
 	 * @param robot
 	 * @param frontBump
+	 * @param curr 
+	 * @param world 
 	 */
-	public Avoid(DifferentialPilot robot, TouchSensor frontBump, UltrasonicSensor usonic) {
+	public Avoid(DifferentialPilot robot, TouchSensor frontBump, UltrasonicSensor usonic, Behavior explore) {
 		
 		this.robot = robot;
 		this.frontBump = frontBump;
 		this.usonic = usonic; 
 //		this.world = world;
+//		this.curr = curr;
 		System.out.println("Avoid");
-//		this.explore = explore;
+		this.explore = (Explore) explore;
 	}
 
 	
@@ -49,11 +52,12 @@ public class Avoid implements Behavior{
 	@Override
 	public void action() {
 		
-//		explore.toCheck.remove(explore.curr);
-//		explore.world.setVisited(explore.curr);
-//		explore.world.setObstacle(explore.curr);
+		explore.toCheck.remove(explore.curr);
+		explore.curr.setValue(-1);
+		explore.world.setVisited(explore.curr);
+		explore.world.setObstacle(explore.curr);
 //		System.out.println("obstacle detected: " + curr.row + ", " + curr.col);
-		
+//		
 //		world.setObstacle(curr);
 		
 		suppressed = false;		// set the flag to false

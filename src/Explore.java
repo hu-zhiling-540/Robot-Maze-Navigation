@@ -15,9 +15,9 @@ public class Explore implements Behavior {
 	public DifferentialPilot robot;
 	public World world;
 
-	public static final double cellD = 23;
+	private static final double cellD = 23;
 	
-	private boolean suppressed = false;
+//	private boolean suppressed = false;
 	
 	
 	/**
@@ -43,7 +43,7 @@ public class Explore implements Behavior {
 	@Override
 	public void action() {
 		
-		suppressed = false;		// set the flag to false
+//		suppressed = false;		// set the flag to false
 		
 		int c = world.commandForExplore();
 		commandDecode(c);
@@ -62,8 +62,10 @@ public class Explore implements Behavior {
 	 */
 	public void commandDecode(int c)	{
 		// current cell is a dead end, backtrack
-		if (c == 1)
+		if (c == 1)	{
+			System.out.println("back");
 			robot.travel(-cellD);	//move backward for one cell distance
+		}
 		
 		// left turn
 		else if ( c == -90)		{
@@ -118,7 +120,7 @@ public class Explore implements Behavior {
 			*/
 	@Override
 	public void suppress() {
-		suppressed = true;
+//		suppressed = true;
 		robot.stop();
 	}
 

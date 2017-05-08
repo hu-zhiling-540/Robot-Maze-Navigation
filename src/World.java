@@ -50,6 +50,9 @@ public class World {
 		curr_row = start[0];
 		curr_col = start[1];
 		
+		this.start = start;
+		this.goal = goal;
+		
 		path = new ArrayList<Cell>();
 		path.add(getCurrCell());		// (1,1)
 		
@@ -140,7 +143,7 @@ public class World {
 	 * @param cell
 	 */
 	public void obstacleDected()	{
-		
+		System.out.println("obstacle dected: " + curr_row + ", " + curr_col);
 		char o = getCurrOrient();
 		// sets the cell ahead of it to be an obstacle
 		switch (o)	{

@@ -16,7 +16,7 @@ public class Avoid implements Behavior{
 	private TouchSensor frontBump;		// an instance of a touch sensor
 	private UltrasonicSensor usonic; 	// an instance of an ultrasonic sensor
 	private int AVOID_DISTANCE = 56; 		// in centimeters  
-	private static final double cellD = -23;
+	private static final double cellD = -19;
 	private boolean suppressed;
 	private World world;
 	

@@ -15,7 +15,7 @@ public class Explore implements Behavior {
 	public DifferentialPilot robot;
 	public World world;
 
-	private static final double cellD = -23;
+	private static final double cellD = -19;
 	
 	private boolean suppressed = false;
 	

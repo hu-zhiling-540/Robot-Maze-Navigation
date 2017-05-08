@@ -28,7 +28,7 @@ public class World {
 	private int curr_row;
 	private int curr_col;
 	
-	private static final double cellD = 23;
+	private static final double cellD = -19;
 	
 
 	/**

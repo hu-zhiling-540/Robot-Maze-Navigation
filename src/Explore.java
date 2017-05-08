@@ -22,7 +22,7 @@ public class Explore implements Behavior {
 	public static final double cellD = 23;
 	
 //	public boolean reachGoal = false;
-	private boolean suppressed = false;
+//	private boolean suppressed = false;
 	
 	
 	/**
@@ -52,7 +52,7 @@ public class Explore implements Behavior {
 	@Override
 	public void action() {
 		
-		suppressed = false;		// set the flag to false
+//		suppressed = false;		// set the flag to false
 		
 		try {
 			Thread.yield();
@@ -211,7 +211,8 @@ public class Explore implements Behavior {
 	
 	@Override
 	public void suppress() {
-		suppressed = true;
+//		suppressed = true;
+		robot.stop();
 	}
 
 }

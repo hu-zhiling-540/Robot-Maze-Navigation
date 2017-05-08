@@ -78,7 +78,6 @@ public class ReachGoal implements Behavior{
 		
 		// rotate to face back
 		robot.rotate(180);
-		System.out.println("rotate 180");
 		
 		try {
 			Thread.yield();
@@ -86,7 +85,7 @@ public class ReachGoal implements Behavior{
 		}
 		catch(InterruptedException ie) {}
 		
-		
+		// walk the way back to the starting cell
 		walkBack();
 		
 		try {
@@ -95,10 +94,12 @@ public class ReachGoal implements Behavior{
 		}
 		catch(InterruptedException ie) {}
 		
-		
 		System.exit(0);
 	}
 	
+	/**
+	 * Walks back to the starting cell
+	 */
 	public void walkBack()	{
 
 		// create a path using DFS algorith

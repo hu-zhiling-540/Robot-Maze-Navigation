@@ -44,11 +44,12 @@ public class Robot {
     	robot.setTravelSpeed(10);
     	
     	Behavior explore = new Explore(robot, world);     			// default behavior
-
-    	world = ((Explore) explore).getWorld();
-    	Cell curr = ((Explore) explore).curr;
+//
+//    	world = ((Explore) explore).getWorld();
+//    	Cell curr = ((Explore) explore).curr;
+//    	
+    	Behavior avoid = new Avoid(robot, frontBump, usonic);		// based on inputs from the touch sensor and ultrasonic sensor
     	
-    	Behavior avoid = new Avoid(robot, frontBump, usonic, world, curr);		// based on inputs from the touch sensor and ultrasonic sensor
     	// a third behavior which runs after the first two have been completed
     	Behavior reachGoal = new ReachGoal(robot, light, world);	// based on inputs from the light sensor
         

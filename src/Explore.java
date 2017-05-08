@@ -206,10 +206,12 @@ public class Explore implements Behavior {
 		if(counter == 0)
 			cell.setDeadEnd();
 	}
+//	
+//	public World getWorld(){
+//		return this.world;
+//	}
+//	
 	
-	public World getWorld(){
-		return this.world;
-	}
 	@Override
 	public void suppress() {
 		suppressed = true;

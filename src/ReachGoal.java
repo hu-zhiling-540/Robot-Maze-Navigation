@@ -176,6 +176,8 @@ public class ReachGoal implements Behavior{
 		prev = curr;
 		curr = next;
 	}
+	
+	
 	/**
 	 *Will play the tone stored in the note array
 	 *	 
@@ -188,7 +190,9 @@ public class ReachGoal implements Behavior{
 			if (suppressed)
 				return; // exit this method if suppress is called
 		}
-	   }
+	}
+	
+	
 	@Override
 	public void suppress() {
 		robot.stop();	

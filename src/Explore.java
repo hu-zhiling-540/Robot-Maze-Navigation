@@ -91,9 +91,6 @@ public class Explore implements Behavior {
 		// other cells
 		else	{
 			
-//			if (prev.row == curr.row && prev.col == curr.col)	{
-//				if (temp.row > curr.row && temp.col == curr.col)
-//			}
 			// if prev and curr are in the same row
 			if (prev.row == curr.row)		{
 				
@@ -210,11 +207,7 @@ public class Explore implements Behavior {
 		if(counter == 0)
 			cell.setDeadEnd();
 	}
-//	
-//	public World getWorld(){
-//		return this.world;
-//	}
-//	
+	
 	
 	@Override
 	public void suppress() {

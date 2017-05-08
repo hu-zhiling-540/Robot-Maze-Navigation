@@ -26,11 +26,15 @@ public class ReachGoal implements Behavior{
 	private static final double cellD = 23;
 	private static final short[] note = {2349,115, 0,5, 1760,165, 0,35};
 	
-//	public Boolean goalReached = false;
 	private boolean suppressed = false;
 	
 	
-	
+	/**
+	 * Constructor
+	 * @param robot
+	 * @param light
+	 * @param world
+	 */
 	public ReachGoal(DifferentialPilot robot, LightSensor light, World world)		{
 		this.robot = robot;
 		this.light = light;

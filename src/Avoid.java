@@ -24,7 +24,7 @@ public class Avoid implements Behavior{
 	
 	
 	/**
-	 * constructor will take the robot as a parameter, 
+	 * Constructor will take the robot as a parameter, 
 	 * as well as the TouchSensor.
 	 * @param robot
 	 * @param frontBump
@@ -35,9 +35,7 @@ public class Avoid implements Behavior{
 		
 		this.robot = robot;
 		this.frontBump = frontBump;
-		this.usonic = usonic; 
-//		this.world = world;
-//		this.curr = curr;
+		this.usonic = usonic;
 		System.out.println("Avoid");
 		this.explore = (Explore) explore;
 	}
@@ -56,9 +54,6 @@ public class Avoid implements Behavior{
 		explore.curr.setValue(-1);
 		explore.world.setVisited(explore.curr);
 		explore.world.setObstacle(explore.curr);
-//		System.out.println("obstacle detected: " + curr.row + ", " + curr.col);
-//		
-//		world.setObstacle(curr);
 		
 		suppressed = false;		// set the flag to false
 		

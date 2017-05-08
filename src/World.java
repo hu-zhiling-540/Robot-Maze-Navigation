@@ -142,26 +142,26 @@ public class World {
 	 * Finds the cell in the maze and marks it visited
 	 * @param cell
 	 */
-	public void obstacleDected()	{
+	public void obstacleDetected()	{
 		System.out.println("obstacle dected: " + curr_row + ", " + curr_col);
 		char o = getCurrOrient();
 		// sets the cell ahead of it to be an obstacle
 		switch (o)	{
 		case 'E':
 			maze[curr_row][curr_col+2].setObstacle();
-			obstacleAround(curr_row,curr_col+1);
+			obstacleAround(curr_row,curr_col+2);
 			break;
 		case 'W':
 			maze[curr_row][curr_col-2].setObstacle();
-			obstacleAround(curr_row,curr_col-1);
+			obstacleAround(curr_row,curr_col-2);
 			break;
 		case 'N':
 			maze[curr_row+2][curr_col].setObstacle();
-			obstacleAround(curr_row+1,curr_col);
+			obstacleAround(curr_row+2,curr_col);
 			break;
 		case 'S':
 			maze[curr_row-2][curr_col].setObstacle();
-			obstacleAround(curr_row-1,curr_col);
+			obstacleAround(curr_row-2,curr_col);
 			break;
 		case 'Y':
 			System.out.println("null orient");
@@ -312,7 +312,6 @@ public class World {
 	}
 
 	/**
-	 * 
 	 * It will check through adjacent neighbors to find all legal states 
 	 * succeeding the current cell
 	 */
@@ -405,19 +404,19 @@ public class World {
 	}
 
 	/**
-		 * Sets start state
-		 * @return 
-		 */
-		public void getDFSPath()	{
-			
-			newPath = new ArrayList<Cell>();
-			stack = new ArrayList<Cell>();
-			
-	//		path.add(start);		// adds starting cell as the first step
-			stack.add(maze[start[0]][start[1]]);	// adds starting cell
-			
-			dfs();
-		}
+	 * Sets start state
+	 * @return 
+	 */
+	public void getDFSPath()	{
+		
+		newPath = new ArrayList<Cell>();
+		stack = new ArrayList<Cell>();
+		
+//		path.add(start);		// adds starting cell as the first step
+		stack.add(maze[start[0]][start[1]]);	// adds starting cell
+		
+		dfs();
+	}
 
 	/**
 	 * Reverses a path

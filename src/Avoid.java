@@ -55,7 +55,7 @@ public class Avoid implements Behavior{
 		
 		suppressed = false;		// set the flag to false
 		
-		world.obstacleDected();
+		world.obstacleDetected();
 		
 		try {
 			Thread.yield();

@@ -18,7 +18,8 @@ public class Avoid implements Behavior{
 	private int AVOID_DISTANCE = 23; 		// in centimeters  
 	private static final double cellD = 23;
 	private boolean suppressed;
-	private Explore explore;
+//	private Explore explore;
+	private World world;
 	
 	
 	/**
@@ -29,7 +30,7 @@ public class Avoid implements Behavior{
 	 * @param curr 
 	 * @param world 
 	 */
-	public Avoid(DifferentialPilot robot, TouchSensor frontBump, UltrasonicSensor usonic, Behavior explore) {
+	public Avoid(DifferentialPilot robot, TouchSensor frontBump, UltrasonicSensor usonic, World world) {
 		
 		/* NEW */
 		suppressed = false;
@@ -37,8 +38,10 @@ public class Avoid implements Behavior{
 		this.robot = robot;
 		this.frontBump = frontBump;
 		this.usonic = usonic;
+		
+		this.world = world;
 		System.out.println("Avoid");
-		this.explore = (Explore) explore;
+//		this.explore = (Explore) explore;
 	}
 
 	
@@ -52,11 +55,12 @@ public class Avoid implements Behavior{
 	public void action() {
 		
 		suppressed = false;		// set the flag to false
-		
-		explore.toCheck.remove(explore.curr);
-		explore.curr.setValue(-1);
-		explore.world.setVisited(explore.curr);
-		explore.world.setObstacle(explore.curr);
+		world.markObstacle();
+//		
+//		explore.toCheck.remove(explore.curr);
+//		explore.curr.setValue(-1);
+//		explore.world.setVisited(explore.curr);
+//		explore.world.setObstacle(explore.curr);
 		
 	
 		
@@ -66,14 +70,14 @@ public class Avoid implements Behavior{
 		}
 		catch(InterruptedException ie) {}
 		
-		// travels backwards by a cell
-		robot.travel(-cellD,true); 
-		
-		try {
-			Thread.yield();
-			Thread.sleep(1000); // stops for a short time (one second)
-		}
-		catch(InterruptedException ie) {}
+//		// travels backwards by a cell
+//		robot.travel(-cellD,true); 
+//		
+//		try {
+//			Thread.yield();
+//			Thread.sleep(1000); // stops for a short time (one second)
+//		}
+//		catch(InterruptedException ie) {}
 		
 		/* NEW; Not Sure */
 		robot.stop();

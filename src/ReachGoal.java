@@ -41,7 +41,7 @@ public class ReachGoal implements Behavior{
 		this.world = world;			// the world class 
 		path = new ArrayList<Cell>();
 		this.init_light_value = init_light_value;
-		maze = world.world;			// the grid
+		maze = world.maze;			// the grid
 	}
 	
 	

@@ -39,8 +39,11 @@ public class ReachGoal implements Behavior{
 		this.robot = robot;
 		this.light = light;
 		this.world = world;			// the world class 
+		
 		path = new ArrayList<Cell>();
+		
 		this.init_light_value = init_light_value;
+		
 		maze = world.maze;			// the grid
 	}
 	
@@ -61,31 +64,24 @@ public class ReachGoal implements Behavior{
 	@Override
 	public void action() {
 		
-		try {
-			Thread.yield();
-			Thread.sleep(1000); // stops for a short time (one second)
-		}
-		catch(InterruptedException ie) {}
-		
-		play();
+		play();			// plays the music
 		
 		try {
 			Thread.yield();
 			Thread.sleep(1000); // stops for a short time (one second)
 		}
 		catch(InterruptedException ie) {}
+
 		
-		// rotate to face back
-		robot.rotate(180);
-		
+		rotateBack();	// new orientation facing starting cell
 		try {
 			Thread.yield();
 			Thread.sleep(1000); // stops for a short time (one second)
 		}
 		catch(InterruptedException ie) {}
 		
-		// walk the way back to the starting cell
-		walkBack();
+		
+		walkBack();		// walk back to the starting cell
 		
 		try {
 			Thread.yield();
@@ -96,16 +92,38 @@ public class ReachGoal implements Behavior{
 		System.exit(0);
 	}
 	
+	
+	/**
+	 * Rotates back to face the starting cell
+	 */
+	public void rotateBack()	{
+		char o = world.getCurrOrient();
+		switch (o)	{
+		case 'E':
+			robot.rotateRight();
+			break;
+		case 'W':
+			robot.rotateLeft();
+			break;
+		case 'N':
+			robot.rotate(180);
+			break;
+		case 'S':
+			break;
+		}
+	}
+	
+	
 	/**
 	 * Walks back to the starting cell
 	 */
 	public void walkBack()	{
-
+		
 		// create a path using DFS algorith
-		world.createAPath();
+		world.getDFSPath();
 		
 		// reverse the path
-		path = world.reverse();
+		path = world.getReversePath();
 		
 		Cell prev = path.get(0);
 		Cell curr = path.remove(0);		// goal cell

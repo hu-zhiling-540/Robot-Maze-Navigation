@@ -18,6 +18,7 @@ public class World {
 	
 	public ArrayList<Cell> newPath;
 	public ArrayList<Cell> path;
+	public ArrayList<Cell> stack;
 	
 	private int numRows;
 	private int numCols;;
@@ -117,14 +118,16 @@ public class World {
 	
 	/**
 	 * Sets start state
+	 * @return 
 	 */
-	public void createAPath()	{
+	public void getDFSPath()	{
 		
 		newPath = new ArrayList<Cell>();
-		path = new ArrayList<Cell>();
+		stack = new ArrayList<Cell>();
 		
 //		path.add(start);		// adds starting cell as the first step
-//		newPath.add(0, start);	// adds starting cell
+		stack.add(maze[start[0]][start[1]]);	// adds starting cell
+		
 		dfs();
 	}
 	
@@ -133,29 +136,11 @@ public class World {
 	 * Reverses a path
 	 * @return
 	 */
-	public ArrayList<Cell> reverse()	{
+	public ArrayList<Cell> getReversePath()	{
 		ArrayList<Cell> back = new ArrayList<Cell>();
-		for (int i = path.size()-1; i >= 0; i--)
-			back.add(path.get(i));
+		for (int i = newPath.size()-1; i >= 0; i--)
+			back.add(newPath.get(i));
 		return back;
-	}
-	
-	
-	/**
-	 * Finds the cell in the maze and marks it visited
-	 * @param cell
-	 */
-	public void setVisited(Cell cell)	{
-		maze[cell.row][cell.col].setVisited();
-	}
-	
-	
-	/**
-	 * Finds the cell in the maze and marks it visited
-	 * @param cell
-	 */
-	public void setObstacle(Cell cell)	{
-		maze[cell.row][cell.col].setObstacle();;
 	}
 	
 	
@@ -163,11 +148,12 @@ public class World {
 	 * Depth First Search
 	 */
 	public void dfs()	{
+		
 		// pop the stack;
 		Cell temp = stack.remove(0);
 		
 		// if it is the goal
-		if (temp.row == goal.row && temp.col == goal.col)	{
+		if (temp.row == goal[0] && temp.col == goal[1])	{
 			return;		// done!
 		}
 		
@@ -176,25 +162,25 @@ public class World {
 			ArrayList<Cell> nbrs = new ArrayList<Cell>();
 			
 			// adjacent top cell
-			if (maze[temp.row+1][temp.col].visited)
+			if (maze[temp.row+1][temp.col].visited && !maze[temp.row+1][temp.col].isObstacle())
 				nbrs.add(maze[temp.row+1][temp.col]);
 			
 			// adjacent bottom cell
-			if (maze[temp.row-1][temp.col].visited)
+			if (maze[temp.row-1][temp.col].visited && !maze[temp.row-1][temp.col].isObstacle())
 				nbrs.add(maze[temp.row-1][temp.col]);
 			
 			// adjacent left cell
-			if (maze[temp.row][temp.col-1].visited)
+			if (maze[temp.row][temp.col-1].visited && !maze[temp.row][temp.col-1].isObstacle())
 				nbrs.add(maze[temp.row][temp.col-1]);
 			
 			// adjacent right cell
-			if (maze[temp.row][temp.col+1].visited)	
+			if (maze[temp.row][temp.col+1].visited && !maze[temp.row][temp.col+1].isObstacle())	
 				nbrs.add(maze[temp.row][temp.col+1]);
 			
 			if (nbrs.size()>0)	{
 				Cell next = nbrs.get(0);
-				path.add(next);
-				nbrs.add(0, next);
+				newPath.add(next);
+				stack.add(0, next);
 			}
 
 			dfs();		// recursive call
@@ -208,7 +194,7 @@ public class World {
 	 * @param row
 	 * @return
 	 */
-	public Boolean isVisited(int col, int row)	{
+	public Boolean isVisited(int row, int col)	{
 		if (maze[row][col].visited)
 			return true;
 		
@@ -216,10 +202,175 @@ public class World {
 	}
 
 	/**
+	 * Identifies whether a cell is a legal move
+	 * by checking the cell value
+	 * @param row
+	 * @param col
+	 * @return
+	 */
+	public boolean isValidMove(int row, int col) {
+		// cell value is -1 or =1
+		if (maze[row][col].isObstacle() || maze[row][col].isDeadEnd())
+			return false;
+		return true;
+	}
+
+	
+	/**
+	 * Finds the cell in the maze and marks it visited
+	 * @param cell
+	 */
+	public void obstacleDected()	{
+		
+		char o = getCurrOrient();
+		// sets the cell ahead of it to be an obstacle
+		switch (o)	{
+		case 'E':
+			maze[curr_row][curr_col+1].setObstacle();
+			obstacleAround(curr_row,curr_col+1);
+			break;
+		case 'W':
+			maze[curr_row][curr_col-1].setObstacle();
+			obstacleAround(curr_row,curr_col-1);
+			break;
+		case 'N':
+			maze[curr_row+1][curr_col].setObstacle();
+			obstacleAround(curr_row+1,curr_col);
+			break;
+		case 'S':
+			maze[curr_row-1][curr_col].setObstacle();
+			obstacleAround(curr_row-1,curr_col);
+			break;
+		case 'Y':
+			System.out.println("null orient");
+			break;
+		}
+		
+	}
+
+	/**
+	 * An obstacle is detected. 
+	 * All adjacent cells should remove a path.
+	 * @param row
+	 * @param col
+	 */
+	public void obstacleAround(int row, int col)	{
+		
+		maze[row+1][col].removeAPath();		// up
+		maze[row-1][col].removeAPath();		// down
+		maze[row][col-1].removeAPath();		// left
+		maze[row][col+1].removeAPath();		// right
+	 }
+	
+	
+	/**
+	 * Finds the cell in the maze and marks it visited
+	 * @param cell
+	 */
+	public void setVisited(int row, int col)	{
+		maze[row][col].setVisited();
+	}
+
+	
+	/**
 	 * Marks the current cell as an obstacle
 	 */
-	public void markObstacle() {
+	public void setCurrObstacle() {
 		maze[curr_row][curr_col].setObstacle();
+	}
+
+	
+	/**
+	 * Compares previous cell and current cell 
+	 * to get an orientation
+	 * @return
+	 */
+	public char getCurrOrient()	{
+		Cell prev = getPrev();
+		if (prev.row == curr_row)	{
+			if (prev.col < curr_col)
+				return 'E';		// facing east
+			else if (prev.col > curr_col)
+				return 'W';		// facing west
+		}
+		else if (prev.col == curr_col)	{
+			if (prev.row < curr_row)
+				return 'N';		// facing north
+			else if (prev.col > curr_col)
+				return 'S';		// facing south
+		}
+		return 'Y';		// should not return such
+	}
+
+	/**
+	 * Getter for the previous cell
+	 * @return
+	 */
+	public Cell getPrev()	{
+		return path.get(path.size()-1);
+	}
+
+	/**
+	 * Resets the current cell to the cell passed in
+	 * by updating the coordinates
+	 * @param cell
+	 */
+	public void updateCurrCell(Cell cell)	{
+		curr_row = cell.row;
+		curr_col = cell.col;
+	}
+
+	/**
+	 * A method that will be called by Explore behavior
+	 * to find a possible move and orientation for that move if exists
+	 * @return
+	 */
+	public int commandForExplore()	{
+		
+		int command = -1;	// nothing found
+		
+		Cell next = nextCell();
+		
+		if (next != null)	{
+			command = orientation(next);
+			path.add(next);		// takes in next cell
+			updateCurrCell(next);
+		}
+		
+		// next == null; dead end
+		else
+			command = 1;	// backtrack to prev cell
+		
+		return command;
+			
+	}
+//	
+//	public int commandForReachGoal()	{
+//		command = orientation(next);
+//	}
+	
+
+	/**
+	 * Finds the succeeding step to be taken
+	 * @return
+	 */
+	public Cell nextCell()	{
+		/* can be transformed to global */
+		ArrayList<Cell> possibleMoves = checkAdjacent();
+		Cell next = null;
+		// if there is at least one route left
+		if (!getCurrCell().isDeadEnd() || !possibleMoves.isEmpty())
+			next = possibleMoves.remove(0);	// pop out the first cell
+		
+		// reach to a dead end, should backtrack
+		else	{
+			// set back to previous cell
+			updateCurrCell(getPrev());
+			// next will be null for this case
+		}
+		
+		return next;
+		
 	}
 
 	/**
@@ -267,66 +418,12 @@ public class World {
 		
 		return nbrs;
 	 }
-	
-	public Cell nextCell()	{
-		/* can be transformed to global */
-		ArrayList<Cell> possibleMoves = checkAdjacent();
-		Cell next = null;
-		// if there is at least one route left
-		if (!getCurrCell().isDeadEnd() || !possibleMoves.isEmpty())
-			next = possibleMoves.remove(0);	// pop out the first cell
-		
-		// reach to a dead end, should backtrack
-		else	{
-			// set back to previous cell
-			updateCurrCell(getPrev());
-			// next will be null for this case
-		}
-		
-		return next;
-		
-	}
-	
-	public Cell getPrev()	{
-		return path.get(path.size()-1);
-	}
-	
-	/**
-	 * A method that will be called by Explore behavior
-	 * to find a possible move and orientation for that move if exists
-	 * @return
-	 */
-	public int commandForExplore()	{
-		
-		int command = -1;	// nothing found
-		
-		Cell next = nextCell();
-		
-		if (next != null)	{
-			command = orientation(next);
-			path.add(next);		// takes in next cell
-			updateCurrCell(next);
-		}
-		
-		// next == null; dead end
-		else
-			command = 1;	// backtrack to prev cell
-		
-		return command;
-			
-	}
-	
 
 	/**
-	 * Resets the current cell to the cell passed in
-	 * by updating the coordinates
-	 * @param cell
+	 * Identifies the orientation in order to make the next move
+	 * @param next
+	 * @return
 	 */
-	public void updateCurrCell(Cell cell)	{
-		curr_row = cell.row;
-		curr_col = cell.col;
-	}
-	
 	public int orientation(Cell next)	{
 		/* NEEDS TO BE DISCUSSED */
 		Cell temp = next;
@@ -367,20 +464,6 @@ public class World {
 				return 0;
 		}
 			
-	}
-	
-	/**
-	 * Identifies whether a cell is a legal move
-	 * by checking the cell value
-	 * @param row
-	 * @param col
-	 * @return
-	 */
-	public boolean isValidMove(int row, int col) {
-		// cell value is -1 or =1
-		if (maze[row][col].isObstacle() || maze[row][col].isDeadEnd())
-			return false;
-		return true;
 	}
 	
 	

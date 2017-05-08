@@ -23,7 +23,7 @@ public class ReachGoal implements Behavior{
 	private Cell[][] maze;
 	private ArrayList<Cell> path;
 	
-	private static final double cellD = -23;
+	private static final double cellD = -19;
 	private static final short[] note = {2349,115, 0,5, 1760,165, 0,35};
 	
 	private boolean suppressed = false;

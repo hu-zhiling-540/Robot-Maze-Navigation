@@ -18,8 +18,6 @@ public class Avoid implements Behavior{
 	private int MAX_DISTANCE = 23; 		// in centimeters  
 	private static final double cellD = 23;
 	private boolean suppressed = false;
-//	private World world;
-//	private Cell curr;
 	private Explore explore;
 	
 	
@@ -43,7 +41,7 @@ public class Avoid implements Behavior{
 	
 	@Override
 	public boolean takeControl() { 
-		return frontBump.isPressed() || usonic.getDistance() > MAX_DISTANCE;
+		return frontBump.isPressed() || usonic.getDistance() < MAX_DISTANCE;
 	}
 	
 	
@@ -65,12 +63,6 @@ public class Avoid implements Behavior{
 		
 		// travels backwards by a cell
 		robot.travel(-cellD,true); 
-//		
-//		try {
-//			Thread.yield();		// wait till turn is complete
-//			Thread.sleep(1000); // stops for a short time (one second)
-//		}
-//		catch(InterruptedException ie) {}
 	}
 	
 	@Override

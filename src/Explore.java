@@ -18,21 +18,18 @@ public class Explore implements Behavior {
 	public Cell curr;
 	
 	public ArrayList<Cell> toCheck;
-//	public ArrayList<Cell> path;
 	public static final double cellD = 23;
 	
-//	public boolean reachGoal = false;
-//	private boolean suppressed = false;
+	private boolean suppressed = false;
 	
 	
 	/**
-	 * constructor
+	 * Constructor
 	 * @param robot
 	 */
 	public Explore(DifferentialPilot robot, World world)	{
 		
 		toCheck = new ArrayList<Cell>();	// works as a stack for cells that to be checked next
-//		path = new ArrayList<Cell>();		// records the path of walking through the maze
 		
 		this.robot = robot;
 		this.world = world;		// the world class 
@@ -52,7 +49,7 @@ public class Explore implements Behavior {
 	@Override
 	public void action() {
 		
-//		suppressed = false;		// set the flag to false
+		suppressed = false;		// set the flag to false
 		
 		try {
 			Thread.yield();
@@ -170,11 +167,14 @@ public class Explore implements Behavior {
 		world.setVisited(curr);		// sync with the maze in the world
 		prev = curr;
 		curr = temp;
-		System.out.println("Moving next!!!!!!");
 		
 	}
 	
 	
+	/**
+	 * Check four adjacent cells, and add to array if it satifies the conditionals
+	 * @param cell
+	 */
 	public void checkAround(Cell cell)	{
 		int counter = 0;
 		
@@ -211,8 +211,7 @@ public class Explore implements Behavior {
 	
 	@Override
 	public void suppress() {
-//		suppressed = true;
-		robot.stop();
+		suppressed = true;
 	}
 
 }

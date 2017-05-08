@@ -10,6 +10,7 @@ public class Cell {
 	public int col;
 	public boolean visited;
 	
+	
 	/**
 	 * A constructor that takes in x, y coordinates
 	 * @param row
@@ -68,6 +69,7 @@ public class Cell {
 	public void setObstacle()	{
 		cellVal = -1;
 	}
+	
 	
 	/**
 	 * Will return true if the cell is visited 

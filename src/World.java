@@ -1,6 +1,10 @@
 import java.util.ArrayList;
 
-
+/**
+ * World that holds the 2D array
+ * and information on start and goal cells
+ *
+ */
 public class World {
 	
 	public Cell[][] world;	//world grid
@@ -14,6 +18,13 @@ public class World {
 	private int numCols;;
 	
 
+	/**
+	 * Constructor
+	 * @param numRows
+	 * @param numCols
+	 * @param start
+	 * @param goal
+	 */
 	public World(int numRows, int numCols, int[] start, int[] goal)	{
 		
 		this.numRows = numRows;
@@ -92,7 +103,7 @@ public class World {
 	
 	
 	/**
-	 * 
+	 * Reverses a path
 	 * @return
 	 */
 	public ArrayList<Cell> reverse()	{
@@ -110,6 +121,7 @@ public class World {
 	public void setVisited(Cell cell)	{
 		world[cell.row][cell.col].setVisited();
 	}
+	
 	
 	/**
 	 * Finds the cell in the maze and marks it visited
@@ -175,37 +187,6 @@ public class World {
 		
 		return false;
 	}
-	
-//	
-//	/**
-//	 * Prints the world and the value each cell holds
-//	 */
-//	public void printWorld()	{
-//		String s = "";
-//		for (int i = 0; i < world.length; i ++)	{
-//			for (int j = 0; j < world[0].length; j ++)	{
-//				s += world[i][j].cellVal + "\t";
-//			}
-//			s += "\n";
-//		}
-//		System.out.println(s);
-//	}
-//	
-//	
-//	/**
-//	 * Prints the world and the value each cell holds
-//	 */
-//	public void printWorld(Cell[][] arr)	{
-//		String s = "";
-//		for (int i = 0; i < arr.length; i ++)	{
-//			for (int j = 0; j < arr[0].length; j ++)	{
-//				s += arr[i][j].cellVal + "\t";
-//			}
-//			s += "\n";
-//		}
-//		System.out.println(s);
-//	}
-	
 	
 	
 	

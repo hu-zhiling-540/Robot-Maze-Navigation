@@ -38,11 +38,10 @@ public class ReachGoal implements Behavior{
 	public ReachGoal(DifferentialPilot robot, LightSensor light, World world)		{
 		this.robot = robot;
 		this.light = light;
-//		this.explore = explore;
-		this.world = world;		// the world class 
+		this.world = world;			// the world class 
 		path = new ArrayList<Cell>();
 		
-		maze = world.world;		// the grid
+		maze = world.world;			// the grid
 	}
 	
 	
@@ -61,7 +60,6 @@ public class ReachGoal implements Behavior{
 	@Override
 	public void action() {
 		
-//		suppressed = false;		// set the flag to false
 		try {
 			Thread.yield();
 			Thread.sleep(1000); // stops for a short time (one second)

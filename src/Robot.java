@@ -45,9 +45,6 @@ public class Robot {
     	
     	Behavior explore = new Explore(robot, world);     			// default behavior
 
-//    	world = ((Explore) explore).world;
-//    	Cell curr = ((Explore) explore).curr;
-//    	
     	Behavior avoid = new Avoid(robot, frontBump, usonic, (Explore) explore);		// based on inputs from the touch sensor and ultrasonic sensor
     	
     	// a third behavior which runs after the first two have been completed

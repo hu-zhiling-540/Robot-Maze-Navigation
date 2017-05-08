@@ -148,19 +148,19 @@ public class World {
 		// sets the cell ahead of it to be an obstacle
 		switch (o)	{
 		case 'E':
-			maze[curr_row][curr_col+1].setObstacle();
+			maze[curr_row][curr_col+2].setObstacle();
 			obstacleAround(curr_row,curr_col+1);
 			break;
 		case 'W':
-			maze[curr_row][curr_col-1].setObstacle();
+			maze[curr_row][curr_col-2].setObstacle();
 			obstacleAround(curr_row,curr_col-1);
 			break;
 		case 'N':
-			maze[curr_row+1][curr_col].setObstacle();
+			maze[curr_row+2][curr_col].setObstacle();
 			obstacleAround(curr_row+1,curr_col);
 			break;
 		case 'S':
-			maze[curr_row-1][curr_col].setObstacle();
+			maze[curr_row-2][curr_col].setObstacle();
 			obstacleAround(curr_row-1,curr_col);
 			break;
 		case 'Y':

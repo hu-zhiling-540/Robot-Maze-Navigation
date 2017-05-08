@@ -69,7 +69,7 @@ public class Avoid implements Behavior{
 	public void suppress() {
 		// will stop this action when it is called:
 		suppressed = true;
-//		robot.stop(); 
+		robot.stop(); 
 	}
 	
 	

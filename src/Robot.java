@@ -17,16 +17,18 @@ import lejos.robotics.subsumption.Behavior;
  */
 public class Robot {
 	
-	protected static final int TRAVEL_DIST = 23;
-	
-	protected static NXTRegulatedMotor leftMotor = Motor.C;
-	protected static NXTRegulatedMotor rightMotor = Motor.A;
-	
-	// creates a touch sensor object and a light sensor object, and attach them to the relative port
-	protected static TouchSensor frontBump = new TouchSensor(SensorPort.S2);	// touch sensor in the front
-	protected static LightSensor light = new LightSensor(SensorPort.S1);
-	protected static UltrasonicSensor usonic = new UltrasonicSensor(SensorPort.S4);
+	static final int TRAVEL_DIST = 23;
 
+	static NXTRegulatedMotor leftMotor = Motor.C;
+	static NXTRegulatedMotor rightMotor = Motor.A;
+
+	// creates instances for sensors and attach them to the relative port
+	static TouchSensor frontBump = new TouchSensor(SensorPort.S2);
+	static LightSensor light = new LightSensor(SensorPort.S1);
+	static UltrasonicSensor usonic = new UltrasonicSensor(SensorPort.S4);
+
+	// reads an initial light value to compare light values that will be read after
+	static int init_light_value = light.readValue();
 	
 	/**
 	 * Main method
@@ -48,7 +50,7 @@ public class Robot {
     	Behavior avoid = new Avoid(robot, frontBump, usonic, (Explore) explore);		// based on inputs from the touch sensor and ultrasonic sensor
     	
     	// a third behavior which runs after the first two have been completed
-    	Behavior reachGoal = new ReachGoal(robot, light, world);	// based on inputs from the light sensor
+    	Behavior reachGoal = new ReachGoal(robot, light, world, init_light_value);	// based on inputs from the light sensor
         
         // array of behaviors will be passed to arbitrator
         Behavior [] bArr = {explore, avoid, reachGoal}; 

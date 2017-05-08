@@ -1,5 +1,5 @@
 /**
- * Holds the instances for cell value, 
+ * Cell holds the instances for cell value, 
  * and coordinates for its location in the maze.
  * It will be used to populate the maze in World.
  */

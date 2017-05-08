@@ -3,6 +3,8 @@ import java.util.ArrayList;
 /**
  * World that holds the 2D array
  * and information on start and goal cells
+ *  contains a lot of getter methods which return variables for the other classes
+in the application to use,
  *
  */
 public class World {

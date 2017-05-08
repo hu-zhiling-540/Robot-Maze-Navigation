@@ -18,7 +18,7 @@ public class ReachGoal implements Behavior{
 
 	public DifferentialPilot robot;
 	private LightSensor light;
-	
+	private int init_light_value;
 	private World world;
 	private Cell[][] maze;
 	private ArrayList<Cell> path;
@@ -35,21 +35,22 @@ public class ReachGoal implements Behavior{
 	 * @param light
 	 * @param world
 	 */
-	public ReachGoal(DifferentialPilot robot, LightSensor light, World world)		{
+	public ReachGoal(DifferentialPilot robot, LightSensor light, World world, int init_light_value)		{
 		this.robot = robot;
 		this.light = light;
 		this.world = world;			// the world class 
 		path = new ArrayList<Cell>();
-		
+		this.init_light_value = init_light_value;
 		maze = world.world;			// the grid
 	}
 	
 	
 	@Override
 	public boolean takeControl() {
-		
-//		light.getFloodlight() == Color.WHITE
-		if(light.readValue() >= 55 ){ 
+		/*light.getFloodlight() == light.WHITE NOTSURE */
+		//if there is a significant value difference of light
+		if((light.readValue()-init_light_value) > 10 || light.getFloodlight() == light.WHITE ||
+				light.getFloodlight() == Color.WHITE){ 		// or a white cell is detected
 			System.out.println("Reach Goal!");
 			return true;
 		}

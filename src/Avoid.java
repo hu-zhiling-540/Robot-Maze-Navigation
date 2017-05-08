@@ -15,9 +15,9 @@ public class Avoid implements Behavior{
 
 	private TouchSensor frontBump;		// an instance of a touch sensor
 	private UltrasonicSensor usonic; 	// an instance of an ultrasonic sensor
-	private int MAX_DISTANCE = 23; 		// in centimeters  
+	private int AVOID_DISTANCE = 23; 		// in centimeters  
 	private static final double cellD = 23;
-	private boolean suppressed = false;
+	private boolean suppressed;
 	private Explore explore;
 	
 	
@@ -31,6 +31,9 @@ public class Avoid implements Behavior{
 	 */
 	public Avoid(DifferentialPilot robot, TouchSensor frontBump, UltrasonicSensor usonic, Behavior explore) {
 		
+		/* NEW */
+		suppressed = false;
+		
 		this.robot = robot;
 		this.frontBump = frontBump;
 		this.usonic = usonic;
@@ -41,19 +44,21 @@ public class Avoid implements Behavior{
 	
 	@Override
 	public boolean takeControl() { 
-		return frontBump.isPressed() || usonic.getDistance() < MAX_DISTANCE;
+		return frontBump.isPressed() || usonic.getDistance() < AVOID_DISTANCE;
 	}
 	
 	
 	@Override
 	public void action() {
 		
+		suppressed = false;		// set the flag to false
+		
 		explore.toCheck.remove(explore.curr);
 		explore.curr.setValue(-1);
 		explore.world.setVisited(explore.curr);
 		explore.world.setObstacle(explore.curr);
 		
-		suppressed = false;		// set the flag to false
+	
 		
 		try {
 			Thread.yield();
@@ -69,13 +74,17 @@ public class Avoid implements Behavior{
 			Thread.sleep(1000); // stops for a short time (one second)
 		}
 		catch(InterruptedException ie) {}
+		
+		/* NEW; Not Sure */
+		robot.stop();
 	}
 	
 	@Override
 	public void suppress() {
 		// will stop this action when it is called:
 		suppressed = true;
-		robot.stop(); 
+		/* Not Sure Comment this one out */
+//		robot.stop(); 
 	}
 	
 	

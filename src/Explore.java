@@ -6,6 +6,8 @@ import lejos.robotics.subsumption.*;
 /**
  * the Explores class implements Behavior, 
  * and travels around and detects obstacle
+ * If no other behaviors are in command,
+ * this is always active and has no trigger 
  *
  */
 public class Explore implements Behavior {
@@ -46,6 +48,10 @@ public class Explore implements Behavior {
 		return true;
 	}
 
+	/*Notice that the method
+	must not go into a never-ending loop, which will cause the arbitration
+	process to no longer work. */
+	
 	@Override
 	public void action() {
 		
@@ -172,7 +178,8 @@ public class Explore implements Behavior {
 	
 	
 	/**
-	 * Check four adjacent cells, and add to array if it satifies the conditionals
+	 * It will check through adjacent neighbors to find all legal states 
+	 * succeeding the current cell
 	 * @param cell
 	 */
 	public void checkAround(Cell cell)	{
@@ -208,7 +215,12 @@ public class Explore implements Behavior {
 			cell.setDeadEnd();
 	}
 	
-	
+	/*
+	Your implementation of this method will stop
+	the current running action (stopping motors and so on).The method
+	should not return until the running action has terminated (but it must
+	return eventually for the arbitration process to work).
+			*/
 	@Override
 	public void suppress() {
 		suppressed = true;

@@ -36,9 +36,10 @@ public class Robot {
 	 */
     public static void main(String [] args) { 
     	
-    	int[] start = {1,1};
-    	int[] goal = {5,8};
+    	int[] start = {1,1};	// starting position
+    	int[] goal = {5,8};		// goal position
     	
+    	// initialize a world that robot navigates by
     	World world = new World(7, 10, start, goal);
     	
     	DifferentialPilot robot = new DifferentialPilot(5.6f, 11.0f, Motor.A, Motor.C, true);   
@@ -47,7 +48,7 @@ public class Robot {
     	
     	Behavior explore = new Explore(robot, world);     			// default behavior
 
-    	Behavior avoid = new Avoid(robot, frontBump, usonic, (Explore) explore);		// based on inputs from the touch sensor and ultrasonic sensor
+    	Behavior avoid = new Avoid(robot, frontBump, usonic, world);		// based on inputs from the touch sensor and ultrasonic sensor
     	
     	// a third behavior which runs after the first two have been completed
     	Behavior reachGoal = new ReachGoal(robot, light, world, init_light_value);	// based on inputs from the light sensor

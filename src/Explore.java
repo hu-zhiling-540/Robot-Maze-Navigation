@@ -211,7 +211,7 @@ public class Explore implements Behavior {
 	
 	@Override
 	public void suppress() {
-//		suppressed = true;
+		suppressed = true;
 		robot.stop();
 	}
 

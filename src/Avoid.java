@@ -63,6 +63,12 @@ public class Avoid implements Behavior{
 		
 		// travels backwards by a cell
 		robot.travel(-cellD,true); 
+		
+		try {
+			Thread.yield();
+			Thread.sleep(1000); // stops for a short time (one second)
+		}
+		catch(InterruptedException ie) {}
 	}
 	
 	@Override

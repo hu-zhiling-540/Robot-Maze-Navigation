@@ -1,6 +1,8 @@
 # Robot-Maze-Navigation
 This project involves working in a team of 2 to build an autonomous Robot that can navigate a maze towards an unknown but marked goal, and “learns” the maze to find the optimal way to go back to the starting point.
 
+[**See full documentation.**](https://github.com/hu-zhiling-540/Robot-Maze-Navigation/blob/master/FinalProjectDesignDoc.pdf)
+
 ## Introduction:	The	Maze	Navigation	Problem	
 The	problem	to	be	solved	is	**a	maze	navigation	problem**.
 The only information we	are given	here:
